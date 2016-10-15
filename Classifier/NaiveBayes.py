@@ -4,7 +4,6 @@
 import sys
 import json
 import constants
-# from pprint import pprint
 
 class NaiveBayes():
 
@@ -20,10 +19,6 @@ class NaiveBayes():
 			Takes a string article and a dictionary track of past statistics as well as an optional 
 			validity threshhold and returns the probability of a given article being trustworthy.
 		"""
-		#try:
-		#	self.file = open(filePath, "r")
-		#except IOError:
-		#	return 0
 		self.article = article
 		self.tokens = []
 		try:
@@ -31,11 +26,6 @@ class NaiveBayes():
 				self.occurences = json.load(dataFile)
 		except IOError:
 			return 0
-		# self.frequencies = {}		# maps token keys to dict {label: count}
-		# self.occurences = self.loadCounts(countsFilePath)	
-		# self.occurences = {	"articles" : 100, "tArticles" : 87, 								# number of articles and number of trustworthy articles (t-articles)
-		#					"t" : {"Handwerk" : 4, "Inhalt" : 12, "gut" : 31, "wichtig" : 37},	# occurences of a token in distinct t-articles
-		#					"nt" : {"Handwerk" : 1, "Inhalt" : 13, "gut" : 2, "wichtig" : 5}}	# occurences of a token in distinct nt-articles
 
 	def tokenize(self):
 		""" Tokenizes given plain text source """
@@ -44,7 +34,6 @@ class NaiveBayes():
 				word = word[1:]
 			if word[-1] in constants.NOT_WORD_CHARS:
 				word = word[:-1]
-			# print word
 			self.tokens.append(word)
 
 	def loadData(self, filePath):
@@ -57,7 +46,6 @@ class NaiveBayes():
 		if word not in self.occurences[constants.LABEL_TRUST].keys() and word not in self.occurences[constants.LABEL_NOTRUST].keys():
 			return 0
 		else:
-			#print self.occurences
 			occurencesOfWordInT = float(self.occurences[constants.LABEL_TRUST][word])
 			occurencesOfWordInNT = float(self.occurences[constants.LABEL_NOTRUST][word])
 			numberOfArticles = float(self.occurences[constants.ARTICLES])
@@ -68,7 +56,6 @@ class NaiveBayes():
 			pWordInNT = occurencesOfWordInNT / numberOfNTArticles
 			pArtIsNT = numberOfNTArticles / numberOfArticles
 			pArtIsTWithWord = pWordInT * pArtIsT / (pWordInT * pArtIsT + pWordInNT * pArtIsNT)
-			#print word
 			print "P(T|W) =", pArtIsTWithWord, ", P(W|T) =", pWordInT, ", P(T) =", pArtIsT, "P(W|-T) =", pWordInNT, ", P(-T) =", pArtIsNT
 			return pArtIsTWithWord
 
@@ -100,10 +87,3 @@ def execute(article):
 
 if __name__ == "__main__":
 	print execute(open(sys.argv[1]).read())
-	#fileName = sys.argv[1]
-	#jsonName = sys.argv[2]
-	#nb = NaiveBayes(open(fileName).read(), jsonName)
-	#nb.tokenize()
-	# nb.loadCounts(jsonName)
-	#nb.determine()
-	# print json.dumps(nb.occurences)
