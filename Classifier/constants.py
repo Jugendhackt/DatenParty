@@ -10,6 +10,9 @@ LABEL_TRUST = "t"
 # label with which untrustworthy articles are labeled
 LABEL_NOTRUST = "nt"
 
+# set of labels
+LABELS = [LABEL_TRUST, LABEL_NOTRUST]
+
 # index under which the count of articles is stored
 ARTICLES = "articles"
 
