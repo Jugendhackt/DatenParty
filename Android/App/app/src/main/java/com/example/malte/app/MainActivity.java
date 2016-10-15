@@ -1,5 +1,6 @@
 package com.example.malte.app;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -20,9 +21,8 @@ public class MainActivity extends AppCompatActivity {
 //      .setItemViewCacheSize(10)
 //      .setLayoutManager(new GridLayoutManager(this, 3));
 
-        for (int i = 0; i < 100; i++) {
             mGalleryView
-                    .addView(new Item(this.getApplicationContext(), mGalleryView, "lalalaa" + i, "test", "@Bild", "10.01.16"));
-        }
+                    .addView(new Item(this.getApplicationContext(), mGalleryView, getResources().getDrawable(R.drawable.bild), "Trump lästerte über Sex mit Lindsay Lohan" , "„Sie ist vermutlich in einer Krise und darum super im Bett“", "@bild", "15.10.16"));
+
     }
 }

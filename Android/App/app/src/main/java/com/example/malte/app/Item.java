@@ -1,7 +1,9 @@
 package com.example.malte.app;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mindorks.placeholderview.Animation;
@@ -36,20 +38,25 @@ public class Item {
     @View(R.id.srctv)
     private TextView srcTextView;
 
+    @View(R.id.activity_photo)
+    private ImageView imageView;
+
     private String mtextTitle;
     private String mtextContext;
     private String mdate;
     private String msrc;
     private Context mContext;
     private PlaceHolderView mPlaceHolderView;
+    private Drawable mlogo;
 
-    public Item(Context context, PlaceHolderView placeHolderView, String text, String contexttext, String srcText, String dateText) {
+    public Item(Context context, PlaceHolderView placeHolderView, Drawable logo, String text, String contexttext, String srcText, String dateText) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
         mtextTitle = text;
         mtextContext = contexttext;
         mdate = dateText;
         msrc = srcText;
+        mlogo = logo;
     }
 
     @Resolve
@@ -59,6 +66,7 @@ public class Item {
         title.setText(mtextTitle);
         descripton.setText(mtextContext);
         timeTextView.setText(mdate);
+        imageView.setImageDrawable(mlogo);
     }
 
     @LoadMore

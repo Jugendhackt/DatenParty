@@ -18,6 +18,31 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             >
+        <LinearLayout
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            >
+
+            <TextView
+                android:layout_weight="1"
+                android:textColor="#b6b6b6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:id="@+id/srctv"/>
+            <TextView
+                android:layout_weight="1"
+                android:textColor="#b6b6b6"
+                android:textAlignment="viewEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:id="@+id/datetv"/>
+
+            </LinearLayout>
 
         <LinearLayout
             android:weightSum="50"
@@ -29,37 +54,42 @@
 
                 <ImageView
                     android:src="@drawable/logo"
-                    android:layout_weight="10"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
                     android:id="@+id/activity_photo"
                     android:layout_marginRight="16dp"/>
 
                 <TextView
-                    android:layout_weight="10"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="40"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:id="@+id/title"/>
-            <TextView
-                android:layout_weight="15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:id="@+id/srctv"/>
-            <TextView
-                android:layout_weight="15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:id="@+id/datetv"/>
+
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/descripton"
+
+        <LinearLayout
+            android:weightSum="20"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            >
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/placeholder"
                 />
+                <TextView
+                    android:layout_weight="18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/descripton"
+                />
+            </LinearLayout>
+
             <LinearLayout
                 android:weightSum="2"
                 android:orientation="horizontal"
