@@ -1,51 +1,47 @@
 [
   {
-    "NameData": "Rosales",
-    "AccountNameData": "Becky",
-    "TimeData": "22. 05. 2016",
-    "TextData": "sint id esse aute consequat labore ex",
-    "thumbnails": "Welt.jpg"
+    "NameData": "Mclean",
+    "AccountNameData": "Eileen",
+    "TimeData": "02. 03. 2015",
+    "TextData": "excepteur culpa laborum minim duis pariatur adipisicing",
+    "thumbnails": "Welt.jpg",
+    "TrustData": 0.9644,
+    "LinkData": "https://twitter.com/welt/status/787282427899154432"
   },
   {
-    "NameData": "Ryan",
-    "AccountNameData": "Mai",
-    "TimeData": "23. 12. 2014",
-    "TextData": "nostrud consequat nisi magna commodo amet irure",
-    "thumbnails": "Welt.jpg"
+    "NameData": "Crawford",
+    "AccountNameData": "Liza",
+    "TimeData": "28. 04. 2015",
+    "TextData": "ipsum ea ad exercitation exercitation cillum velit",
+    "thumbnails": "Welt.jpg",
+    "TrustData": 0.9341,
+    "LinkData": "https://twitter.com/welt/status/787282427899154432"
   },
   {
-    "NameData": "Calhoun",
-    "AccountNameData": "Hodge",
-    "TimeData": "30. 05. 2014",
-    "TextData": "excepteur do in officia occaecat ipsum cupidatat",
-    "thumbnails": "Welt.jpg"
+    "NameData": "Reba",
+    "AccountNameData": "Tracy",
+    "TimeData": "20. 09. 2014",
+    "TextData": "est elit irure nisi non officia duis",
+    "thumbnails": "Welt.jpg",
+    "TrustData": 0.8314,
+    "LinkData": "https://twitter.com/welt/status/787282427899154432"
   },
   {
-    "NameData": "Bridgett",
-    "AccountNameData": "Reva",
-    "TimeData": "10. 09. 2014",
-    "TextData": "exercitation nostrud voluptate est ad elit labore",
-    "thumbnails": "Welt.jpg"
+    "NameData": "Morgan",
+    "AccountNameData": "Lindsay",
+    "TimeData": "12. 09. 2015",
+    "TextData": "minim anim do labore deserunt fugiat reprehenderit",
+    "thumbnails": "Welt.jpg",
+    "TrustData": 0.5663,
+    "LinkData": "https://twitter.com/welt/status/787282427899154432"
   },
   {
-    "NameData": "Wood",
-    "AccountNameData": "Mcmahon",
-    "TimeData": "18. 09. 2016",
-    "TextData": "laborum enim enim amet dolore consectetur sunt",
-    "thumbnails": "Welt.jpg"
-  },
-  {
-    "NameData": "Cortez",
-    "AccountNameData": "Albert",
-    "TimeData": "09. 06. 2015",
-    "TextData": "ut non proident qui minim reprehenderit elit",
-    "thumbnails": "Welt.jpg"
-  },
-  {
-    "NameData": "Freeman",
-    "AccountNameData": "Chen",
-    "TimeData": "05. 09. 2016",
-    "TextData": "fugiat ea sit adipisicing dolore aute tempor",
-    "thumbnails": "Welt.jpg"
+    "NameData": "Sherrie",
+    "AccountNameData": "Francisca",
+    "TimeData": "26. 04. 2016",
+    "TextData": "ut veniam ullamco tempor et labore tempor",
+    "thumbnails": "Welt.jpg",
+    "TrustData": 0.9727,
+    "LinkData": "https://twitter.com/welt/status/787282427899154432"
   }
 ]

@@ -19,5 +19,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *UpButton;
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnailImageView;
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
+@property (weak, nonatomic) IBOutlet UIView *trustBar;
 
 @end

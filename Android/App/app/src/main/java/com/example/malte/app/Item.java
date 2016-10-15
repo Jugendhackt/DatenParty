@@ -1,17 +1,21 @@
 package com.example.malte.app;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.Animation;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Animate;
+import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.LongClick;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
+import com.mindorks.placeholderview.annotations.infinite.LoadMore;
 
 /**
  * Created by blackpython on 10/15/16.
@@ -22,27 +26,68 @@ import com.mindorks.placeholderview.annotations.View;
 
 public class Item {
 
-    @View(R.id.imageView)
+    @View(R.id.title)
+    private TextView title;
+
+    @View(R.id.descripton)
+    private TextView descripton;
+
+    @View(R.id.datetv)
+    private TextView timeTextView;
+
+    @View(R.id.srctv)
+    private TextView srcTextView;
+
+    @View(R.id.activity_photo)
     private ImageView imageView;
 
-    private String mUlr;
+    private String mtextTitle;
+    private String mtextContext;
+    private String mdate;
+    private String msrc;
     private Context mContext;
     private PlaceHolderView mPlaceHolderView;
+    private Drawable mlogo;
 
-    public Item(Context context, PlaceHolderView placeHolderView, String ulr) {
+    public Item(Context context, PlaceHolderView placeHolderView, Drawable logo, String text, String contexttext, String srcText, String dateText) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
-        mUlr = ulr;
+        mtextTitle = text;
+        mtextContext = contexttext;
+        mdate = dateText;
+        msrc = srcText;
+        mlogo = logo;
     }
 
     @Resolve
     private void onResolved() {
-        Glide.with(mContext).load("http://inthecheesefactory.com/uploads/source/glidepicasso/cover.jpg").into(imageView);
+      //  Glide.with(mContext).load(mUlr).into(imageView);
+        srcTextView.setText(msrc);
+        title.setText(mtextTitle);
+        descripton.setText(mtextContext);
+        timeTextView.setText(mdate);
+        imageView.setImageDrawable(mlogo);
     }
 
-    @LongClick(R.id.imageView)
+    @LoadMore
+    private void loadMore(){
+
+    }
+
+    @LongClick(R.id.title)
     private void onLongClick(){
         mPlaceHolderView.removeView(this);
+    }
+
+    @Click(R.id.buttonYes)
+    private void onClickYes(){
+        Log.i("yes", "yes");
+    }
+
+    @Click(R.id.buttonNo)
+    private void onClickNo(){
+        Log.i("No", "No");
+//        mPlaceHolderView.removeView(Item.this);
     }
 
 }
