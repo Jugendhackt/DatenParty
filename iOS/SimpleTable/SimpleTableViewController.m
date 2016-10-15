@@ -33,9 +33,11 @@
 
     // Load the file content and read the data into arrays
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
-    tableData = [dict objectForKey:@"RecipeName"];
-    thumbnails = [dict objectForKey:@"Thumbnail"];
-    prepTime = [dict objectForKey:@"PrepTime"];
+    NameData = [dict objectForKey:@"Name"];
+    thumbnails = [dict objectForKey:@"AccountIcon"];
+    TextData = [dict objectForKey:@"Text"];
+    TimeData = [dict objectForKey:@"Time"];
+    
 }
 
 - (void)viewDidUnload
