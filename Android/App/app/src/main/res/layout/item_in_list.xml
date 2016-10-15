@@ -12,11 +12,82 @@
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="6dp"
         card_view:cardElevation="6dp">
-        <ImageView
-            android:id="@+id/imageView"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="centerCrop"
-            android:src="@android:color/holo_orange_dark"/>
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            >
+
+        <LinearLayout
+            android:weightSum="50"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            >
+
+                <ImageView
+                    android:src="@drawable/logo"
+                    android:layout_weight="10"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/activity_photo"
+                    android:layout_marginRight="16dp"/>
+
+                <TextView
+                    android:layout_weight="10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:id="@+id/title"/>
+            <TextView
+                android:layout_weight="15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/srctv"/>
+            <TextView
+                android:layout_weight="15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/datetv"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/descripton"
+                />
+            <LinearLayout
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+            >
+
+
+                <Button
+                    android:text="Vertrauen"
+                    android:textColor="#179b03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonYes"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:text="Nicht Vertrauen"
+                    android:textColor="#cc001b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonNo"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
     </android.support.v7.widget.CardView>
 </LinearLayout>
