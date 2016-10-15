@@ -113,8 +113,8 @@ bool makeEmpty=NO;
         TimeData = [TimeData arrayByAddingObject:[arrayResult objectForKey:@"date"]];
         thumbnails = [thumbnails arrayByAddingObject:[arrayResult objectForKey:@"profilimage"]];
         NameData = [NameData arrayByAddingObject:[arrayResult objectForKey:@"profilname"]];
-        LinkData = [LinkData arrayByAddingObject:[arrayResult objectForKey:@"link"]];
-        TrustData = [TrustData arrayByAddingObject:[arrayResult objectForKey:@"trust"]];
+        LinkData = [LinkData arrayByAddingObject:[arrayResult objectForKey:@"tweetlink"]];
+        TrustData = [TrustData arrayByAddingObject:[arrayResult objectForKey:@"trustlevel"]];
         TextData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"tweet"]];
         TweetidData = [TweetidData arrayByAddingObject:[arrayResult objectForKey:@"tweetid"]];
     }
@@ -213,6 +213,8 @@ bool makeEmpty=NO;
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/up/%@", [TweetidData objectAtIndex:sender.tag]]];
     NSError *error;
     NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
+    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+
 }
 
 -(void)untrustButtonDown:(UIButton*)sender
