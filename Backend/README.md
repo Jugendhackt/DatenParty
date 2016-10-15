@@ -1,2 +1,0 @@
-# DatenParty
-Backend Code
