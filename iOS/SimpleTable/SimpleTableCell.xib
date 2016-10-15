@@ -24,7 +24,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KUv-uU-hIV">
-                                <frame key="frameInset" minX="111" minY="18" width="42" height="15"/>
+                                <frame key="frameInset" minX="111" minY="18" width="67" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.2835501269035533" green="0.2835501269035533" blue="0.2835501269035533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -44,27 +44,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </label>
-                            <view contentMode="scaleToFill" misplaced="YES" id="dqs-Pr-rO7">
-                                <frame key="frameInset" minY="100" width="287" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="nHk-lA-NQa">
-                                        <frame key="frameInset" minX="19" width="126" height="33"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button">
-                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="vCi-yv-6J1">
-                                        <frame key="frameInset" minX="146" width="126" height="33"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button">
-                                            <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WFc-YQ-lRo">
                                 <frame key="frameInset" minX="186" minY="17" width="93" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -79,11 +58,9 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="AccountNameLabel" destination="KUv-uU-hIV" id="hXc-ed-xZF"/>
-                <outlet property="DownButton" destination="nHk-lA-NQa" id="mwF-He-vY9"/>
                 <outlet property="NameLabel" destination="5" id="99b-R9-WlO"/>
                 <outlet property="TextLabel" destination="8" id="VED-M8-nWp"/>
                 <outlet property="TimeLabel" destination="WFc-YQ-lRo" id="DBz-PO-fDD"/>
-                <outlet property="UpButton" destination="vCi-yv-6J1" id="sD4-8i-Z0k"/>
                 <outlet property="cellView" destination="HYx-pY-PX8" id="a4J-kK-mD4"/>
                 <outlet property="thumbnailImageView" destination="4" id="Y7a-iJ-1IO"/>
             </connections>
