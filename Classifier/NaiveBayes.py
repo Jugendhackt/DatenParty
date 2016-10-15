@@ -52,7 +52,7 @@ class NaiveBayes():
 		if word not in self.occurences[constants.LABEL_TRUST].keys() and word not in self.occurences[constants.LABEL_NOTRUST].keys():
 			return 0
 		else:
-			print word
+			# print word
 			occurencesOfWordInT = self.getCount(constants.LABEL_TRUST, word)
 			occurencesOfWordInNT = self.getCount(constants.LABEL_NOTRUST, word)
 			numberOfArticles = float(self.occurences[constants.ARTICLES])
@@ -63,7 +63,7 @@ class NaiveBayes():
 			pWordInNT = occurencesOfWordInNT / numberOfNTArticles
 			pArtIsNT = numberOfNTArticles / numberOfArticles
 			pArtIsTWithWord = pWordInT * pArtIsT / (pWordInT * pArtIsT + pWordInNT * pArtIsNT)
-			print "P(T|W) =", pArtIsTWithWord, ", P(W|T) =", pWordInT, ", P(T) =", pArtIsT, "P(W|-T) =", pWordInNT, ", P(-T) =", pArtIsNT
+			# print "P(T|W) =", pArtIsTWithWord, ", P(W|T) =", pWordInT, ", P(T) =", pArtIsT, "P(W|-T) =", pWordInNT, ", P(-T) =", pArtIsNT
 			return pArtIsTWithWord
 
 	def wordNProb(self, word):
@@ -84,9 +84,9 @@ class NaiveBayes():
 			tProb /= (tProb + nProb)
 		if self.exceedsThreshhold(tProb):
 			print "Trustworthy."
-			return 1
-		print "Untrustworthy."
-		return 0
+		else:
+			print "Untrustworthy."
+		return tProb
 
 def execute(article):
 	nb = NaiveBayes(article)
