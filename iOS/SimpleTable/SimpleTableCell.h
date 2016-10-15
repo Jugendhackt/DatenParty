@@ -14,6 +14,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *AccountNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *TimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *TextLabel;
+@property (weak, nonatomic) IBOutlet UIView *cellView;
+@property (weak, nonatomic) IBOutlet UIButton *DownButton;
+@property (weak, nonatomic) IBOutlet UIButton *UpButton;
 
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnailImageView;
 

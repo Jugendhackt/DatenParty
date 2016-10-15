@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SimpleTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

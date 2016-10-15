@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		181FC60B1DB22C8F00B8FBE9 /* Welt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 181FC60A1DB22C8F00B8FBE9 /* Welt.jpg */; };
+		181FC60D1DB2364500B8FBE9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 181FC60C1DB2364500B8FBE9 /* Launch Screen.storyboard */; };
 		F479E159155E3E99005C48B1 /* recipes.plist in Resources */ = {isa = PBXBuildFile; fileRef = F479E158155E3E99005C48B1 /* recipes.plist */; };
-		F479E1641571FC25005C48B1 /* MyLaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = F479E1621571FC24005C48B1 /* MyLaunchImage.png */; };
-		F479E1651571FC25005C48B1 /* MyLaunchImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F479E1631571FC25005C48B1 /* MyLaunchImage@2x.png */; };
 		F4DBB63C154C41F300904C6A /* SimpleTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DBB63B154C41F300904C6A /* SimpleTableCell.m */; };
 		F4DBB63E154CC10B00904C6A /* SimpleTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4DBB63D154CC10B00904C6A /* SimpleTableCell.xib */; };
 		F4FFD305153BF3E800759785 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4FFD304153BF3E800759785 /* UIKit.framework */; };
@@ -25,9 +24,8 @@
 
 /* Begin PBXFileReference section */
 		181FC60A1DB22C8F00B8FBE9 /* Welt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Welt.jpg; sourceTree = "<group>"; };
+		181FC60C1DB2364500B8FBE9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		F479E158155E3E99005C48B1 /* recipes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = recipes.plist; sourceTree = "<group>"; };
-		F479E1621571FC24005C48B1 /* MyLaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyLaunchImage.png; sourceTree = "<group>"; };
-		F479E1631571FC25005C48B1 /* MyLaunchImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyLaunchImage@2x.png"; sourceTree = "<group>"; };
 		F4DBB63A154C41F300904C6A /* SimpleTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleTableCell.h; sourceTree = "<group>"; };
 		F4DBB63B154C41F300904C6A /* SimpleTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleTableCell.m; sourceTree = "<group>"; };
 		F4DBB63D154CC10B00904C6A /* SimpleTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleTableCell.xib; sourceTree = "<group>"; };
@@ -63,8 +61,6 @@
 		F4FFD2F5153BF3E800759785 = {
 			isa = PBXGroup;
 			children = (
-				F479E1621571FC24005C48B1 /* MyLaunchImage.png */,
-				F479E1631571FC25005C48B1 /* MyLaunchImage@2x.png */,
 				F4FFD30A153BF3E800759785 /* SimpleTable */,
 				F4FFD303153BF3E800759785 /* Frameworks */,
 				F4FFD301153BF3E800759785 /* Products */,
@@ -103,6 +99,7 @@
 				F4DBB63B154C41F300904C6A /* SimpleTableCell.m */,
 				F4DBB63D154CC10B00904C6A /* SimpleTableCell.xib */,
 				F479E158155E3E99005C48B1 /* recipes.plist */,
+				181FC60C1DB2364500B8FBE9 /* Launch Screen.storyboard */,
 			);
 			path = SimpleTable;
 			sourceTree = "<group>";
@@ -174,13 +171,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				181FC60D1DB2364500B8FBE9 /* Launch Screen.storyboard in Resources */,
 				F4FFD30F153BF3E800759785 /* InfoPlist.strings in Resources */,
 				F4FFD31B153BF3E900759785 /* SimpleTableViewController.xib in Resources */,
 				181FC60B1DB22C8F00B8FBE9 /* Welt.jpg in Resources */,
 				F4DBB63E154CC10B00904C6A /* SimpleTableCell.xib in Resources */,
 				F479E159155E3E99005C48B1 /* recipes.plist in Resources */,
-				F479E1641571FC25005C48B1 /* MyLaunchImage.png in Resources */,
-				F479E1651571FC25005C48B1 /* MyLaunchImage@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
