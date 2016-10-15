@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+	#!/usr/bin/python
+	# -*- coding: utf-8 -*-
 
 import sys
 import json
@@ -40,14 +40,21 @@ class NaiveBayes():
 		""" Reads counts of tokens in past trustworthy and untrustworthy texts """
 		with open(filePath) as jsonFile:
 			data = json.load(jsonFile)
-		pprint(countData)
+
+	def getCount(self, label, word):
+		try:
+			if label in constants.LABELS:
+				return float(self.occurences[label][word])
+		except KeyError:
+			return 0
 
 	def wordTProb(self, word):
 		if word not in self.occurences[constants.LABEL_TRUST].keys() and word not in self.occurences[constants.LABEL_NOTRUST].keys():
 			return 0
 		else:
-			occurencesOfWordInT = float(self.occurences[constants.LABEL_TRUST][word])
-			occurencesOfWordInNT = float(self.occurences[constants.LABEL_NOTRUST][word])
+			print word
+			occurencesOfWordInT = self.getCount(constants.LABEL_TRUST, word)
+			occurencesOfWordInNT = self.getCount(constants.LABEL_NOTRUST, word)
 			numberOfArticles = float(self.occurences[constants.ARTICLES])
 			numberOfTArticles = float(self.occurences[constants.TRUSTED_ARTICLES])
 			numberOfNTArticles = float(self.occurences[constants.ARTICLES] - self.occurences[constants.TRUSTED_ARTICLES])
@@ -68,12 +75,13 @@ class NaiveBayes():
 		return 0
 
 	def determine(self):
-		tProb = 1
-		nProb = 1
+		tProb = 1.0
+		nProb = 1.0
 		for token in self.tokens:
 			tProb *= self.wordTProb(token)
 			nProb *= self.wordNProb(token)
-		tProb /= (tProb + nProb)
+		if tProb > 0.0:
+			tProb /= (tProb + nProb)
 		if self.exceedsThreshhold(tProb):
 			print "Trustworthy."
 			return 1

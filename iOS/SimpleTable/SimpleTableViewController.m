@@ -28,12 +28,13 @@ UIRefreshControl * refreshControl;
     NSArray *TrustData;
 }
 NSTimer *updateTimer;
+bool makeEmpty=NO;
 @synthesize tableView, headerView, reloadButton;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(reloadAction) userInfo:nil repeats:YES];
+    //updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(reloadAction) userInfo:nil repeats:YES];
     
     refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:refreshControl];
@@ -45,10 +46,10 @@ NSTimer *updateTimer;
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
     NameData = [dict objectForKey:@"Name"];
     thumbnails = [dict objectForKey:@"AccountIcon"];
-    TextData = [dict objectForKey:@"Text"];
     TimeData = [dict objectForKey:@"Time"];
     LinkData = [dict objectForKey:@"Link"];
     TrustData = [dict objectForKey:@"Trust"];
+    TextData = [dict objectForKey:@"Text"];
     AccountNameData = [dict objectForKey:@"Account"];
     headerView.layer.shadowOffset = CGSizeMake(0, 2);
     headerView.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -65,8 +66,10 @@ NSTimer *updateTimer;
 
 
 - (void)refreshTable {
-    [refreshControl endRefreshing];
+    makeEmpty = YES;
     [self.tableView reloadData];
+    makeEmpty = NO;
+    [refreshControl endRefreshing];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -76,7 +79,11 @@ NSTimer *updateTimer;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [NameData count];
+    if(makeEmpty){
+        return 5;
+    }else{
+        return [NameData count];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -95,20 +102,19 @@ NSTimer *updateTimer;
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SimpleTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    NSString* path  = [[NSBundle mainBundle] pathForResource:@"generated" ofType:@"json"];
+    NSString* path  = [[NSBundle mainBundle] pathForResource:@"tweet" ofType:@"json"];
     NSString* jsonString = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     NSData* jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *jsonError;
     id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
     for (int i=0; i<[allKeys count]; i++) {
         NSDictionary *arrayResult = [allKeys objectAtIndex:i];
-        TextData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"TextData"]];
-        TimeData = [TimeData arrayByAddingObject:[arrayResult objectForKey:@"TimeData"]];
-        thumbnails = [thumbnails arrayByAddingObject:[arrayResult objectForKey:@"thumbnails"]];
-        AccountNameData = [AccountNameData arrayByAddingObject:[arrayResult objectForKey:@"AccountNameData"]];
-        NameData = [NameData arrayByAddingObject:[arrayResult objectForKey:@"NameData"]];
-        LinkData = [LinkData arrayByAddingObject:[arrayResult objectForKey:@"LinkData"]];
-        TrustData = [TrustData arrayByAddingObject:[arrayResult objectForKey:@"TrustData"]];
+        TimeData = [TimeData arrayByAddingObject:[arrayResult objectForKey:@"date"]];
+        thumbnails = [thumbnails arrayByAddingObject:[arrayResult objectForKey:@"profilimage"]];
+        NameData = [NameData arrayByAddingObject:[arrayResult objectForKey:@"profilname"]];
+        LinkData = [LinkData arrayByAddingObject:[arrayResult objectForKey:@"link"]];
+        TrustData = [TrustData arrayByAddingObject:[arrayResult objectForKey:@"trust"]];
+        TextData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"tweet"]];
     }
     cell.cellView.layer.cornerRadius = 5;
     cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
@@ -117,10 +123,11 @@ NSTimer *updateTimer;
     cell.cellView.layer.shadowOpacity = 0.7f;
     cell.cellView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:cell.cellView.layer.bounds] CGPath];
     cell.NameLabel.text = [NameData objectAtIndex:indexPath.row];
-    cell.thumbnailImageView.image = [UIImage imageNamed:[thumbnails objectAtIndex:indexPath.row]];
+    cell.thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [thumbnails objectAtIndex:indexPath.row]]]]];
     cell.thumbnailImageView.layer.cornerRadius = 5;
     cell.thumbnailImageView.layer.masksToBounds = YES;
     cell.TimeLabel.text = [TimeData objectAtIndex:indexPath.row];
+    cell.TextLabel.text = [TextData objectAtIndex:indexPath.row];
     
     UIButton *linkButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
     linkButton.tag=indexPath.row;
@@ -214,7 +221,9 @@ NSTimer *updateTimer;
 }
 
 -(void)reloadAction{
+    makeEmpty = YES;
     [self.tableView reloadData];
+    makeEmpty = NO;
 }
 @end
 
