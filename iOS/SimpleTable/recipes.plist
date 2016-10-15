@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Time</key>
+	<array>
+		<string>15.10.16</string>
+	</array>
+	<key>Accounticon</key>
+	<array>
+		<string>Welt.jpg</string>
+	</array>
+	<key>Name</key>
+	<array>
+		<string>Welt</string>
+	</array>
+	<key>Account</key>
+	<array>
+		<string>Welt</string>
+	</array>
+	<key>Text</key>
+	<array>
+		<string>Eurojackpot geknackt: Glückspilz holt bislang größten deutschen Lottogewinn http://to.welt.de/</string>
+	</array>
+</dict>
+</plist>
