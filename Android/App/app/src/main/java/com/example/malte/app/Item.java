@@ -8,6 +8,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+import com.bumptech.glide.Glide;
+import com.hanuor.pearl.Pearl;
 import com.mindorks.placeholderview.Animation;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Animate;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by blackpython on 10/15/16.
  */
-@Animate(Animation.ENTER_LEFT_DESC)
+@Animate(Animation.FADE_IN_ASC)
 @NonReusable
 @Layout(R.layout.item_in_list)
 
@@ -62,28 +64,32 @@ Item {
     private String msrc;
     private Context mContext;
     private PlaceHolderView mPlaceHolderView;
-    private Drawable mlogo;
+    //private Drawable mlogo;
+    private String murl;
     private ArrayList<Integer> mar ;
 
-    public Item(Context context, PlaceHolderView placeHolderView, Drawable logo, String text, String contexttext, String srcText, String dateText,ArrayList<Integer> ar) {
+    public Item(Context context, PlaceHolderView placeHolderView, String url, String text, String contexttext, String srcText, String dateText,ArrayList<Integer> ar) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
         mtextTitle = text;
         mtextContext = contexttext;
         mdate = dateText;
         msrc = srcText;
-        mlogo = logo;
+
+        murl = url;
+        //mlogo = logo;
         mar = ar;
     }
 
     @Resolve
     private void onResolved() {
-      //  Glide.with(mContext).load(mUlr).into(imageView);
+        Pearl.imageLoader(mContext,murl,imageView, R.drawable.logo);
+        //Glide.with(mContext).load(murl).into(imageView);
         srcTextView.setText(msrc);
         title.setText(mtextTitle);
         descripton.setText(mtextContext);
         timeTextView.setText(mdate);
-        imageView.setImageDrawable(mlogo);
+        //imageView.setImageDrawable(mlogo);
 
         progressBar.setMax(mar.get(0));
         progressBar.setProgress(mar.get(1));

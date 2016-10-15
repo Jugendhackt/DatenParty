@@ -1,5 +1,7 @@
 import requests
 import json
+import datetime
+import random
 r = requests.get('http://loklak.org/api/search.json?timezoneOffset=-120&q=from%3Atagesschau')
 
 def hashashtag(tweet):
@@ -19,12 +21,16 @@ statusescounter = int(statusescounter)
 for statuses in range(0,statusescounter):
     loklaktext = loklakjson["statuses"][statuses]["text"]
     createdat = loklakjson["statuses"][statuses]["created_at"]
+    createdat = createdat[:-5]
+    createdat = datetime.datetime.strptime(createdat,"%Y-%m-%dT%H:%M:%S")
+    createdat = createdat.strftime("%H:%M:%S")
     name = loklakjson["statuses"][statuses]["user"]["screen_name"]
     profilimageurl = loklakjson["statuses"][statuses]["user"]["profile_image_url_https"]
     link = loklakjson["statuses"][statuses]["link"]
+    trustlevel = random.uniform(0.2, 1.0)
     id = loklakjson["statuses"][statuses]["id_str"]
     if not loklaktext.startswith("@") and not hashashtag(loklaktext):
-        tweet = {"tweet":loklaktext, "date":createdat, "profilname":name, "profilimage":profilimageurl, "tweetid":id, "tweetlink":link}
+        tweet = {"tweet":loklaktext, "date":createdat, "profilname":name, "profilimage":profilimageurl, "tweetid":id, "tweetlink":link, "trustlevel":trustlevel}
         tweetlist.append(tweet)
 fp = open("tweets.json", "w")
 json.dump(tweetlist, fp)

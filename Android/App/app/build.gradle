@@ -29,6 +29,7 @@ dependencies {
     compile 'com.mindorks:placeholderview:0.2.9'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    compile 'com.github.hanuor:pearl:0.0.8'
 
     //  compile 'com.android.support:support-v4:19.1.0'
 }
