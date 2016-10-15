@@ -4,7 +4,7 @@
 <dict>
 	<key>Time</key>
 	<array>
-		<string>15.10.16</string>
+		<string>15. 10. 2016</string>
 	</array>
 	<key>AccountIcon</key>
 	<array>
@@ -31,7 +31,7 @@
 	<key>Trust</key>
 	<array>
 		<array>
-			<integer>1</integer>
+			<string>0.4</string>
 		</array>
 	</array>
 </dict>

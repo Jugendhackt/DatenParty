@@ -5,6 +5,7 @@
 //  Created by Simon Ng on 16/4/12.
 //  Copyright (c) 2012 AppCoda. All rights reserved.
 //
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define SPIN_CLOCK_WISE 1
 #define SPIN_COUNTERCLOCK_WISE -1
 #import "SimpleTableViewController.h"
@@ -26,12 +27,13 @@ UIRefreshControl * refreshControl;
     NSArray *LinkData;
     NSArray *TrustData;
 }
-
+NSTimer *updateTimer;
 @synthesize tableView, headerView, reloadButton;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(reloadAction) userInfo:nil repeats:YES];
     
     refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:refreshControl];
@@ -53,7 +55,6 @@ UIRefreshControl * refreshControl;
     headerView.layer.shadowRadius = 8.0f;
     headerView.layer.shadowOpacity = 0.7f;
     headerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:headerView.layer.bounds] CGPath];
-    
 }
 
 - (void)viewDidUnload
@@ -80,7 +81,7 @@ UIRefreshControl * refreshControl;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 170;
+    return 160;
 }
 
 
@@ -112,7 +113,7 @@ UIRefreshControl * refreshControl;
     cell.cellView.layer.cornerRadius = 5;
     cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
     cell.cellView.layer.shadowColor = [UIColor blackColor].CGColor;
-    cell.cellView.layer.shadowRadius = 8.0f;
+    cell.cellView.layer.shadowRadius = 5.0f;
     cell.cellView.layer.shadowOpacity = 0.7f;
     cell.cellView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:cell.cellView.layer.bounds] CGPath];
     cell.NameLabel.text = [NameData objectAtIndex:indexPath.row];
@@ -120,8 +121,6 @@ UIRefreshControl * refreshControl;
     cell.thumbnailImageView.layer.cornerRadius = 5;
     cell.thumbnailImageView.layer.masksToBounds = YES;
     cell.TimeLabel.text = [TimeData objectAtIndex:indexPath.row];
-    cell.AccountNameLabel.text = [NSString stringWithFormat:@"@%@", [AccountNameData objectAtIndex:indexPath.row]];
-    cell.TextLabel.text = [TextData objectAtIndex:indexPath.row];
     
     UIButton *linkButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
     linkButton.tag=indexPath.row;
@@ -136,11 +135,11 @@ UIRefreshControl * refreshControl;
                    action:@selector(trustButtonDown:) forControlEvents:UIControlEventTouchDown];
     [upButton setTitle:@"Vertrauen" forState:UIControlStateNormal];
     [upButton setTitleColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:1] forState:UIControlStateNormal];
-    upButton.frame = CGRectMake(166, 115, 126, 33);
+    upButton.frame = CGRectMake(39, 110, 126, 33);
     [cell.contentView addSubview:upButton];
-    upButton.layer.cornerRadius = 5;
+    /*upButton.layer.cornerRadius = 5;
     upButton.layer.borderWidth = 2.0f;
-    upButton.layer.borderColor = [UIColor grayColor].CGColor;
+    upButton.layer.borderColor = [UIColor grayColor].CGColor;*/
     
     UIButton *downButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
     downButton.tag=indexPath.row;
@@ -148,19 +147,25 @@ UIRefreshControl * refreshControl;
                action:@selector(untrustButtonDown:) forControlEvents:UIControlEventTouchDown];
     [downButton setTitle:@"Nicht vertrauen" forState:UIControlStateNormal];
     [downButton setTitleColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1] forState:UIControlStateNormal];
-    downButton.frame = CGRectMake(39, 115, 126, 33);
+    downButton.frame = CGRectMake(170, 110, 126, 33);
     [cell.contentView addSubview:downButton];
-    downButton.layer.cornerRadius = 5;
+    /*downButton.layer.cornerRadius = 5;
     downButton.layer.borderWidth = 2.0f;
-    downButton.layer.borderColor = [UIColor grayColor].CGColor;
+    downButton.layer.borderColor = [UIColor grayColor].CGColor;*/
 
     cell.layer.cornerRadius = 10;
-    
-    NSLog(@"TrustString: %@", [[TrustData objectAtIndex:indexPath.row] floatValue]);
-    /*if(<=0.5){
-    cell.trustBar.backgroundColor = [UIColor colorWithRed:1 green:2*[[NSDecimalNumber decimalNumberWithString:[TrustData objectAtIndex:indexPath.row]]floatValue] blue:0 alpha:1];
-    }*/
+    cell.trustBar.layer.cornerRadius = 2;
+    if(indexPath.row!=0){
+    float trust = [[TrustData objectAtIndex:indexPath.row] floatValue];
+        NSLog(@"%d %f", indexPath.row, trust);
+        if(trust<=0.5){
+            cell.trustBar.backgroundColor = [UIColor colorWithRed:1 green:2*trust blue:0 alpha:1];
+        }else{
+            cell.trustBar.backgroundColor = [UIColor colorWithRed:2*(1-trust) green:1 blue:0 alpha:1];
+        }
+    }
     return cell;
+    [self.tableView reloadData];
 }
 
 - (void)spinLayer:(CALayer *)inLayer duration:(CFTimeInterval)inDuration
@@ -205,6 +210,10 @@ UIRefreshControl * refreshControl;
 
 - (IBAction)reload:(id)sender {
     [self spinLayer:reloadButton.layer duration:1 direction:SPIN_CLOCK_WISE];
+    [self reloadAction];
+}
+
+-(void)reloadAction{
     [self.tableView reloadData];
 }
 @end
