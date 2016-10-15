@@ -28,6 +28,7 @@ UIRefreshControl * refreshControl;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:refreshControl];
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
@@ -69,7 +70,7 @@ UIRefreshControl * refreshControl;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 120;
+    return 165;
 }
 
 
@@ -83,14 +84,21 @@ UIRefreshControl * refreshControl;
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SimpleTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
+    NSString* path  = [[NSBundle mainBundle] pathForResource:@"generated" ofType:@"json"];
+    NSString* jsonString = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    NSData* jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *jsonError;
+    id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
+    for (int i=0; i<[allKeys count]; i++) {
+        NSDictionary *arrayResult = [allKeys objectAtIndex:i];
+        TextData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"TextData"]];
+        TimeData = [TimeData arrayByAddingObject:[arrayResult objectForKey:@"TimeData"]];
+        thumbnails = [thumbnails arrayByAddingObject:[arrayResult objectForKey:@"thumbnails"]];
+        AccountNameData = [AccountNameData arrayByAddingObject:[arrayResult objectForKey:@"AccountNameData"]];
+        NameData = [NameData arrayByAddingObject:[arrayResult objectForKey:@"NameData"]];
+    }
     cell.cellView.layer.cornerRadius = 5;
     cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
-    cell.UpButton.layer.cornerRadius = 5;
-    cell.UpButton.layer.borderWidth = 2.0f;
-    cell.UpButton.layer.borderColor = [UIColor grayColor].CGColor;
-    cell.DownButton.layer.cornerRadius = 5;
-    cell.DownButton.layer.borderWidth = 2.0f;
-    cell.DownButton.layer.borderColor = [UIColor grayColor].CGColor;
     cell.cellView.layer.shadowColor = [UIColor blackColor].CGColor;
     cell.cellView.layer.shadowRadius = 8.0f;
     cell.cellView.layer.shadowOpacity = 0.7f;
@@ -102,7 +110,42 @@ UIRefreshControl * refreshControl;
     cell.TimeLabel.text = [TimeData objectAtIndex:indexPath.row];
     cell.AccountNameLabel.text = [NSString stringWithFormat:@"@%@", [AccountNameData objectAtIndex:indexPath.row]];
     cell.TextLabel.text = [TextData objectAtIndex:indexPath.row];
+    
+    UIButton *upButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    upButton.tag=indexPath.row;
+    [upButton addTarget:self
+                   action:@selector(trustButtonDown:) forControlEvents:UIControlEventTouchDown];
+    [upButton setTitle:@"Vertrauen" forState:UIControlStateNormal];
+    [upButton setTitleColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:1] forState:UIControlStateNormal];
+    upButton.frame = CGRectMake(166, 115, 126, 33);
+    [cell.contentView addSubview:upButton];
+    upButton.layer.cornerRadius = 5;
+    upButton.layer.borderWidth = 2.0f;
+    upButton.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    UIButton *downButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    downButton.tag=indexPath.row;
+    [downButton addTarget:self
+               action:@selector(untrustButtonDown:) forControlEvents:UIControlEventTouchDown];
+    [downButton setTitle:@"Nicht vertrauen" forState:UIControlStateNormal];
+    [downButton setTitleColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1] forState:UIControlStateNormal];
+    downButton.frame = CGRectMake(39, 115, 126, 33);
+    [cell.contentView addSubview:downButton];
+    downButton.layer.cornerRadius = 5;
+    downButton.layer.borderWidth = 2.0f;
+    downButton.layer.borderColor = [UIColor grayColor].CGColor;
+    
     return cell;
+}
+
+-(void)trustButtonDown:(UIButton*)sender
+{
+    NSLog(@"Trust %d",sender.tag);
+}
+
+-(void)untrustButtonDown:(UIButton*)sender
+{
+    NSLog(@"Untrust %d",sender.tag);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

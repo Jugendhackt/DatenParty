@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIView *cellView;
 @property (weak, nonatomic) IBOutlet UIButton *DownButton;
 @property (weak, nonatomic) IBOutlet UIButton *UpButton;
-
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnailImageView;
+@property (weak, nonatomic) IBOutlet UIView *buttonView;
 
 @end
