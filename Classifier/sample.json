@@ -1,0 +1,16 @@
+{
+	"articles": 100, 
+	"nt": {
+		"wichtig": 5, 
+		"Inhalt": 13, 
+		"Handwerk": 1, 
+		"gut": 2
+		}, 
+	"tArticles": 87, 
+	"t": {
+		"wichtig": 37, 
+		"Inhalt": 12, 
+		"Handwerk": 4, 
+		"gut": 31
+	}
+}
