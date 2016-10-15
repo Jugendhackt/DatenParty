@@ -3,36 +3,20 @@
 <plist version="1.0">
 <dict>
 	<key>Time</key>
-	<array>
-		<string>15. 10. 2016</string>
-	</array>
+	<array/>
 	<key>AccountIcon</key>
-	<array>
-		<string>Welt.jpg</string>
-	</array>
+	<array/>
 	<key>Name</key>
-	<array>
-		<string>Welt</string>
-	</array>
+	<array/>
 	<key>Account</key>
-	<array>
-		<string>Welt</string>
-	</array>
+	<array/>
 	<key>Text</key>
-	<array>
-		<string>Eurojackpot geknackt: Glückspilz holt bislang größten deutschen Lottogewinn http://to.welt.de/</string>
-	</array>
+	<array/>
 	<key>Link</key>
-	<array>
-		<array>
-			<string>https://twitter.com/welt/status/787282427899154432</string>
-		</array>
-	</array>
+	<array/>
+	<key>Tweetid</key>
+	<array/>
 	<key>Trust</key>
-	<array>
-		<array>
-			<string>0.4</string>
-		</array>
-	</array>
+	<array/>
 </dict>
 </plist>

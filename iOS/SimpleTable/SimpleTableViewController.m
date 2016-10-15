@@ -26,6 +26,7 @@ UIRefreshControl * refreshControl;
     NSArray *TextData;
     NSArray *LinkData;
     NSArray *TrustData;
+    NSArray *TweetidData;
 }
 NSTimer *updateTimer;
 bool makeEmpty=NO;
@@ -34,7 +35,7 @@ bool makeEmpty=NO;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(reloadAction) userInfo:nil repeats:YES];
+    //updateTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(reloadAction) userInfo:nil repeats:YES];
     
     refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:refreshControl];
@@ -50,6 +51,7 @@ bool makeEmpty=NO;
     LinkData = [dict objectForKey:@"Link"];
     TrustData = [dict objectForKey:@"Trust"];
     TextData = [dict objectForKey:@"Text"];
+    TweetidData = [dict objectForKey:@"Tweetid"];
     AccountNameData = [dict objectForKey:@"Account"];
     headerView.layer.shadowOffset = CGSizeMake(0, 2);
     headerView.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -80,7 +82,7 @@ bool makeEmpty=NO;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(makeEmpty){
-        return 5;
+        return 4;
     }else{
         return [NameData count];
     }
@@ -90,7 +92,6 @@ bool makeEmpty=NO;
 {
     return 160;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -115,6 +116,7 @@ bool makeEmpty=NO;
         LinkData = [LinkData arrayByAddingObject:[arrayResult objectForKey:@"link"]];
         TrustData = [TrustData arrayByAddingObject:[arrayResult objectForKey:@"trust"]];
         TextData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"tweet"]];
+        TweetidData = [TweetidData arrayByAddingObject:[arrayResult objectForKey:@"tweetid"]];
     }
     cell.cellView.layer.cornerRadius = 5;
     cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
@@ -142,7 +144,7 @@ bool makeEmpty=NO;
                    action:@selector(trustButtonDown:) forControlEvents:UIControlEventTouchDown];
     [upButton setTitle:@"Vertrauen" forState:UIControlStateNormal];
     [upButton setTitleColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:1] forState:UIControlStateNormal];
-    upButton.frame = CGRectMake(39, 110, 126, 33);
+    upButton.frame = CGRectMake(30, 110, 126, 33);
     [cell.contentView addSubview:upButton];
     /*upButton.layer.cornerRadius = 5;
     upButton.layer.borderWidth = 2.0f;
@@ -201,18 +203,24 @@ bool makeEmpty=NO;
 -(void)linkDown:(UIButton*)sender
 {
     NSLog(@"Link %d",sender.tag);
-    NSLog(@"%@", [LinkData objectAtIndex:0]);
+    NSLog(@"%@", [LinkData objectAtIndex:sender.tag]);
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[LinkData objectAtIndex:sender.tag]]];
 }
 
 -(void)trustButtonDown:(UIButton*)sender
 {
-    NSLog(@"Trust %d",sender.tag);
+    NSLog(@"URL %@",[NSString stringWithFormat:@"http://maschini.de/datenparty/up/%@", [TweetidData objectAtIndex:sender.tag]]);
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/up/%@", [TweetidData objectAtIndex:sender.tag]]];
+    NSError *error;
+    NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
 }
 
 -(void)untrustButtonDown:(UIButton*)sender
 {
-    NSLog(@"Untrust %d",sender.tag);
+    NSLog(@"URL %@",[NSString stringWithFormat:@"http://maschini.de/datenparty/down/%@", [TweetidData objectAtIndex:sender.tag]]);
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/down/%@", [TweetidData objectAtIndex:sender.tag]]];
+    NSError *error;
+    NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
 }
 
 - (IBAction)reload:(id)sender {
@@ -221,6 +229,7 @@ bool makeEmpty=NO;
 }
 
 -(void)reloadAction{
+    [self.tableView setContentOffset:CGPointZero animated:YES];
     makeEmpty = YES;
     [self.tableView reloadData];
     makeEmpty = NO;
