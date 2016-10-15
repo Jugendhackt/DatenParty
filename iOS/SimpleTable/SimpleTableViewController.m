@@ -5,9 +5,12 @@
 //  Created by Simon Ng on 16/4/12.
 //  Copyright (c) 2012 AppCoda. All rights reserved.
 //
-
+#define SPIN_CLOCK_WISE 1
+#define SPIN_COUNTERCLOCK_WISE -1
 #import "SimpleTableViewController.h"
 #import "SimpleTableCell.h"
+#import <QuartzCore/QuartzCore.h>
+#import <UIKit/UIKit.h>
 
 @interface SimpleTableViewController ()
 
@@ -20,10 +23,11 @@ UIRefreshControl * refreshControl;
     NSArray *TimeData;
     NSArray *AccountNameData;
     NSArray *TextData;
-    
+    NSArray *LinkData;
+    NSArray *TrustData;
 }
 
-@synthesize tableView;
+@synthesize tableView, headerView, reloadButton;
 
 - (void)viewDidLoad
 {
@@ -41,7 +45,14 @@ UIRefreshControl * refreshControl;
     thumbnails = [dict objectForKey:@"AccountIcon"];
     TextData = [dict objectForKey:@"Text"];
     TimeData = [dict objectForKey:@"Time"];
+    LinkData = [dict objectForKey:@"Link"];
+    TrustData = [dict objectForKey:@"Trust"];
     AccountNameData = [dict objectForKey:@"Account"];
+    headerView.layer.shadowOffset = CGSizeMake(0, 2);
+    headerView.layer.shadowColor = [UIColor blackColor].CGColor;
+    headerView.layer.shadowRadius = 8.0f;
+    headerView.layer.shadowOpacity = 0.7f;
+    headerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:headerView.layer.bounds] CGPath];
     
 }
 
@@ -53,7 +64,6 @@ UIRefreshControl * refreshControl;
 
 
 - (void)refreshTable {
-    //!!!
     [refreshControl endRefreshing];
     [self.tableView reloadData];
 }
@@ -70,7 +80,7 @@ UIRefreshControl * refreshControl;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 165;
+    return 170;
 }
 
 
@@ -96,6 +106,8 @@ UIRefreshControl * refreshControl;
         thumbnails = [thumbnails arrayByAddingObject:[arrayResult objectForKey:@"thumbnails"]];
         AccountNameData = [AccountNameData arrayByAddingObject:[arrayResult objectForKey:@"AccountNameData"]];
         NameData = [NameData arrayByAddingObject:[arrayResult objectForKey:@"NameData"]];
+        LinkData = [LinkData arrayByAddingObject:[arrayResult objectForKey:@"LinkData"]];
+        TrustData = [TrustData arrayByAddingObject:[arrayResult objectForKey:@"TrustData"]];
     }
     cell.cellView.layer.cornerRadius = 5;
     cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
@@ -110,6 +122,13 @@ UIRefreshControl * refreshControl;
     cell.TimeLabel.text = [TimeData objectAtIndex:indexPath.row];
     cell.AccountNameLabel.text = [NSString stringWithFormat:@"@%@", [AccountNameData objectAtIndex:indexPath.row]];
     cell.TextLabel.text = [TextData objectAtIndex:indexPath.row];
+    
+    UIButton *linkButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    linkButton.tag=indexPath.row;
+    [linkButton addTarget:self
+                 action:@selector(linkDown:) forControlEvents:UIControlEventTouchDown];
+    linkButton.frame = CGRectMake(17, 16, 287, 140);
+    [cell.contentView addSubview:linkButton];
     
     UIButton *upButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
     upButton.tag=indexPath.row;
@@ -134,8 +153,44 @@ UIRefreshControl * refreshControl;
     downButton.layer.cornerRadius = 5;
     downButton.layer.borderWidth = 2.0f;
     downButton.layer.borderColor = [UIColor grayColor].CGColor;
+
+    cell.layer.cornerRadius = 10;
     
+    NSLog(@"TrustString: %@", [[TrustData objectAtIndex:indexPath.row] floatValue]);
+    /*if(<=0.5){
+    cell.trustBar.backgroundColor = [UIColor colorWithRed:1 green:2*[[NSDecimalNumber decimalNumberWithString:[TrustData objectAtIndex:indexPath.row]]floatValue] blue:0 alpha:1];
+    }*/
     return cell;
+}
+
+- (void)spinLayer:(CALayer *)inLayer duration:(CFTimeInterval)inDuration
+        direction:(int)direction
+{
+    CABasicAnimation* rotationAnimation;
+    
+    // Rotate about the z axis
+    rotationAnimation =
+    [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    
+    // Rotate 360 degress, in direction specified
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 * direction];
+    
+    // Perform the rotation over this many seconds
+    rotationAnimation.duration = inDuration;
+    
+    // Set the pacing of the animation
+    rotationAnimation.timingFunction =
+    [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    
+    // Add animation to the layer and make it so
+    [inLayer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+}
+
+-(void)linkDown:(UIButton*)sender
+{
+    NSLog(@"Link %d",sender.tag);
+    NSLog(@"%@", [LinkData objectAtIndex:0]);
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[LinkData objectAtIndex:sender.tag]]];
 }
 
 -(void)trustButtonDown:(UIButton*)sender
@@ -148,33 +203,9 @@ UIRefreshControl * refreshControl;
     NSLog(@"Untrust %d",sender.tag);
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    /*NSLog(@"didSelectRowAtIndexPath");
-    UIAlertView *messageAlert = [[UIAlertView alloc]
-                                    initWithTitle:@"Row Selected" message:@"You've selected a row" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    UIAlertView *messageAlert = [[UIAlertView alloc]
-                                 initWithTitle:@"Row Selected" message:[name objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    
-    // Display the Hello World Message
-    [messageAlert show];
-    
-    // Checked the selected row
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];*/
+- (IBAction)reload:(id)sender {
+    [self spinLayer:reloadButton.layer duration:1 direction:SPIN_CLOCK_WISE];
+    [self.tableView reloadData];
 }
-
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"willSelectRowAtIndexPath");
-    if (indexPath.row == 0) {
-        return nil;
-    }
-    
-    return indexPath;
-}
-
 @end
 

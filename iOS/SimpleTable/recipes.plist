@@ -22,5 +22,17 @@
 	<array>
 		<string>Eurojackpot geknackt: Glückspilz holt bislang größten deutschen Lottogewinn http://to.welt.de/</string>
 	</array>
+	<key>Link</key>
+	<array>
+		<array>
+			<string>https://twitter.com/welt/status/787282427899154432</string>
+		</array>
+	</array>
+	<key>Trust</key>
+	<array>
+		<array>
+			<integer>1</integer>
+		</array>
+	</array>
 </dict>
 </plist>

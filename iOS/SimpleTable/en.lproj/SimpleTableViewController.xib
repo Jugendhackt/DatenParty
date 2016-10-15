@@ -8,6 +8,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimpleTableViewController">
             <connections>
+                <outlet property="headerView" destination="7xW-TK-so3" id="DIx-NQ-R1b"/>
+                <outlet property="reloadButton" destination="MiT-Zx-Ipe" id="Z6T-4C-sw8"/>
                 <outlet property="tableView" destination="8" id="AqP-dA-jhW"/>
                 <outlet property="view" destination="6" id="7"/>
             </connections>
@@ -17,11 +19,6 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="658"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" misplaced="YES" id="7xW-TK-so3">
-                    <frame key="frameInset" width="320" height="47"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.28355012689999998" green="0.28355012689999998" blue="0.28355012689999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                </view>
                 <tableView contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="126" sectionHeaderHeight="22" sectionFooterHeight="22" id="8">
                     <frame key="frameInset" minY="55" maxY="-10"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,12 +28,35 @@
                         <outlet property="delegate" destination="-1" id="11"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" misplaced="YES" id="7xW-TK-so3">
+                    <frame key="frameInset" width="320" height="47"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MiT-Zx-Ipe">
+                            <frame key="frameInset" minX="281" minY="8" width="31" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button" image="Refresh.png"/>
+                            <connections>
+                                <action selector="reload:" destination="-1" eventType="touchDown" id="ivX-9z-8g7"/>
+                            </connections>
+                        </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="DatenParty.png" id="P4d-PA-e0G">
+                            <frame key="frameInset" minX="88" minY="3" width="145" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.28355012689999998" green="0.28355012689999998" blue="0.28355012689999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="35" y="-4"/>
+            <point key="canvasLocation" x="-59" y="-24"/>
         </view>
     </objects>
+    <resources>
+        <image name="DatenParty.png" width="224" height="55"/>
+        <image name="Refresh.png" width="224" height="224"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
