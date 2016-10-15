@@ -12,9 +12,8 @@
 		181ABEF41DB26E29007E1266 /* DatenParty.png in Resources */ = {isa = PBXBuildFile; fileRef = 181ABEF31DB26E29007E1266 /* DatenParty.png */; };
 		181ABEF61DB2707E007E1266 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 181ABEF51DB2707E007E1266 /* QuartzCore.framework */; };
 		181ABEF81DB2B4AC007E1266 /* tweet.json in Resources */ = {isa = PBXBuildFile; fileRef = 181ABEF71DB2B4AC007E1266 /* tweet.json */; };
-		181FC60B1DB22C8F00B8FBE9 /* Welt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 181FC60A1DB22C8F00B8FBE9 /* Welt.jpg */; };
+		181ABEFA1DB2CC28007E1266 /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = 181ABEF91DB2CC28007E1266 /* AppIcon.appiconset */; };
 		181FC60D1DB2364500B8FBE9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 181FC60C1DB2364500B8FBE9 /* Launch Screen.storyboard */; };
-		181FC60F1DB2442B00B8FBE9 /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = 181FC60E1DB2442B00B8FBE9 /* AppIcon.appiconset */; };
 		181FC6111DB2443100B8FBE9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 181FC6101DB2443100B8FBE9 /* Images.xcassets */; };
 		F479E159155E3E99005C48B1 /* recipes.plist in Resources */ = {isa = PBXBuildFile; fileRef = F479E158155E3E99005C48B1 /* recipes.plist */; };
 		F4DBB63C154C41F300904C6A /* SimpleTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DBB63B154C41F300904C6A /* SimpleTableCell.m */; };
@@ -35,9 +34,8 @@
 		181ABEF31DB26E29007E1266 /* DatenParty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DatenParty.png; sourceTree = "<group>"; };
 		181ABEF51DB2707E007E1266 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		181ABEF71DB2B4AC007E1266 /* tweet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tweet.json; sourceTree = "<group>"; };
-		181FC60A1DB22C8F00B8FBE9 /* Welt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Welt.jpg; sourceTree = "<group>"; };
+		181ABEF91DB2CC28007E1266 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AppIcon.appiconset; sourceTree = "<group>"; };
 		181FC60C1DB2364500B8FBE9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		181FC60E1DB2442B00B8FBE9 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AppIcon.appiconset; sourceTree = "<group>"; };
 		181FC6101DB2443100B8FBE9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F479E158155E3E99005C48B1 /* recipes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = recipes.plist; sourceTree = "<group>"; };
 		F4DBB63A154C41F300904C6A /* SimpleTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleTableCell.h; sourceTree = "<group>"; };
@@ -104,7 +102,6 @@
 		F4FFD30A153BF3E800759785 /* SimpleTable */ = {
 			isa = PBXGroup;
 			children = (
-				181FC60A1DB22C8F00B8FBE9 /* Welt.jpg */,
 				F4FFD313153BF3E800759785 /* SimpleTableAppDelegate.h */,
 				F4FFD314153BF3E800759785 /* SimpleTableAppDelegate.m */,
 				F4FFD316153BF3E800759785 /* SimpleTableViewController.h */,
@@ -121,7 +118,7 @@
 				181ABEF11DB26608007E1266 /* Refresh.png */,
 				181ABEF31DB26E29007E1266 /* DatenParty.png */,
 				181FC6101DB2443100B8FBE9 /* Images.xcassets */,
-				181FC60E1DB2442B00B8FBE9 /* AppIcon.appiconset */,
+				181ABEF91DB2CC28007E1266 /* AppIcon.appiconset */,
 			);
 			path = SimpleTable;
 			sourceTree = "<group>";
@@ -197,9 +194,8 @@
 				181FC6111DB2443100B8FBE9 /* Images.xcassets in Resources */,
 				F4FFD30F153BF3E800759785 /* InfoPlist.strings in Resources */,
 				F4FFD31B153BF3E900759785 /* SimpleTableViewController.xib in Resources */,
-				181FC60B1DB22C8F00B8FBE9 /* Welt.jpg in Resources */,
+				181ABEFA1DB2CC28007E1266 /* AppIcon.appiconset in Resources */,
 				181ABEF01DB25DBC007E1266 /* generated.json in Resources */,
-				181FC60F1DB2442B00B8FBE9 /* AppIcon.appiconset in Resources */,
 				181ABEF81DB2B4AC007E1266 /* tweet.json in Resources */,
 				F4DBB63E154CC10B00904C6A /* SimpleTableCell.xib in Resources */,
 				F479E159155E3E99005C48B1 /* recipes.plist in Resources */,
