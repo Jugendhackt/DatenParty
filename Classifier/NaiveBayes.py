@@ -14,7 +14,7 @@ class NaiveBayes():
 		trustworthy text is strictly independet from one another's.
 	"""
 
-	def __init__(self, filePath, countsFilePath, tThreshhold = 0.90):
+	def __init__(self, filePath, tThreshhold = 0.90):
 		try:
 			self.file = open(filePath, "r")
 		except IOError:
@@ -50,14 +50,26 @@ class NaiveBayes():
 		pprint(countData)
 
 	def wordTProb(self, word):
-		if word not in self.occurences["t"].keys() and not in self.occurences["nt"].keys():
+		if word not in self.occurences["t"].keys() and word not in self.occurences["nt"].keys():
 			return 0
 		else:
-			pWordInT = self.occurences["t"][word] / self.occurences["tArticles"] 
-			pArtIsT = self.occurences["tArticles"] / self.occurences["articles"]
-			pWordInNT = self.occurences["nt"][word] / (self.occurences["articles"] - self.occurences["tArticles"])
-			pArtIsNT = (self.occurences["articles"] - self.occurences["tArticles"]) / self.occurences["articles"]
-			return pWordInT * pArtIsT / (pWordInT * pArtIsT + pWordInNT * pArtIsNT)
+			#print word
+			#print self.occurences
+			#print self.occurences["t"][word]
+			#print self.occurences["tArticles"] 
+			#print 4/87
+			occurencesOfWordInT = float(self.occurences["t"][word])
+			occurencesOfWordInNT = float(self.occurences["nt"][word])
+			numberOfArticles = float(self.occurences["articles"])
+			numberOfTArticles = float(self.occurences["tArticles"])
+			numberOfNTArticles = float(self.occurences["articles"] - self.occurences["tArticles"])
+			pWordInT = occurencesOfWordInT / numberOfTArticles
+			pArtIsT = numberOfTArticles / numberOfArticles
+			pWordInNT = occurencesOfWordInNT / numberOfNTArticles
+			pArtIsNT = numberOfNTArticles / numberOfArticles
+			pArtIsTWithWord = pWordInT * pArtIsT / (pWordInT * pArtIsT + pWordInNT * pArtIsNT)
+			print "P(T|W) =", pArtIsTWithWord, "P(W|T) =", pWordInT, ", P(T) =", pArtIsT, "P(W|-T) =", pWordInNT, ", P(-T) =", pArtIsNT
+			return pArtIsTWithWord
 
 	def wordNProb(self, word):
 		return 1 - self.wordTProb(word)
@@ -74,13 +86,16 @@ class NaiveBayes():
 			tProb *= self.wordTProb(token)
 			nProb *= self.wordNProb(token)
 		tProb /= (tProb + nProb)
-		if exceedsThreshhold(tProb):
+		if self.exceedsThreshhold(tProb):
+			print "Trustworthy."
 			return 1
+		print "Untrustworthy."
 		return 0
 
 if __name__ == "__main__":
 	fileName = sys.argv[1]
-	jsonName = sys.argv[2]
+	# jsonName = sys.argv[2]
 	nb = NaiveBayes(fileName)
 	nb.tokenize()
-	nb.loadCounts(jsonName)
+	# nb.loadCounts(jsonName)
+	nb.determine()
