@@ -3,6 +3,7 @@ package com.example.malte.app;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.Animation;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Animate;
@@ -18,7 +19,9 @@ import com.mindorks.placeholderview.annotations.View;
 @Animate(Animation.ENTER_LEFT_DESC)
 @NonReusable
 @Layout(R.layout.item_in_list)
+
 public class Item {
+
     @View(R.id.imageView)
     private ImageView imageView;
 
@@ -34,7 +37,7 @@ public class Item {
 
     @Resolve
     private void onResolved() {
-      //  Glide.with(mContext).load(mUlr).into(imageView);
+        Glide.with(mContext).load("http://inthecheesefactory.com/uploads/source/glidepicasso/cover.jpg").into(imageView);
     }
 
     @LongClick(R.id.imageView)
