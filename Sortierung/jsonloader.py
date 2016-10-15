@@ -21,9 +21,10 @@ for statuses in range(0,statusescounter):
     createdat = loklakjson["statuses"][statuses]["created_at"]
     name = loklakjson["statuses"][statuses]["user"]["screen_name"]
     profilimageurl = loklakjson["statuses"][statuses]["user"]["profile_image_url_https"]
+    link = loklakjson["statuses"][statuses]["link"]
     id = loklakjson["statuses"][statuses]["id_str"]
     if not loklaktext.startswith("@") and not hashashtag(loklaktext):
-        tweet = {"tweet":loklaktext, "date":createdat, "profilname":name, "profilimage":profilimageurl, "tweetid":id}
+        tweet = {"tweet":loklaktext, "date":createdat, "profilname":name, "profilimage":profilimageurl, "tweetid":id, "tweetlink":link}
         tweetlist.append(tweet)
 fp = open("tweets.json", "w")
 json.dump(tweetlist, fp)
