@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.mindorks.placeholderview.Animation;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Animate;
@@ -17,6 +19,9 @@ import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.infinite.LoadMore;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Created by blackpython on 10/15/16.
  */
@@ -24,7 +29,9 @@ import com.mindorks.placeholderview.annotations.infinite.LoadMore;
 @NonReusable
 @Layout(R.layout.item_in_list)
 
-public class Item {
+public class
+Item {
+
 
     @View(R.id.title)
     private TextView title;
@@ -41,6 +48,14 @@ public class Item {
     @View(R.id.activity_photo)
     private ImageView imageView;
 
+
+    @View(R.id.progressBar123)
+    private RoundCornerProgressBar progressBar;
+
+    @View(R.id.textProgress)
+    private TextView textToShowTheProgress;
+
+
     private String mtextTitle;
     private String mtextContext;
     private String mdate;
@@ -48,8 +63,9 @@ public class Item {
     private Context mContext;
     private PlaceHolderView mPlaceHolderView;
     private Drawable mlogo;
+    private ArrayList<Integer> mar ;
 
-    public Item(Context context, PlaceHolderView placeHolderView, Drawable logo, String text, String contexttext, String srcText, String dateText) {
+    public Item(Context context, PlaceHolderView placeHolderView, Drawable logo, String text, String contexttext, String srcText, String dateText,ArrayList<Integer> ar) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
         mtextTitle = text;
@@ -57,6 +73,7 @@ public class Item {
         mdate = dateText;
         msrc = srcText;
         mlogo = logo;
+        mar = ar;
     }
 
     @Resolve
@@ -67,7 +84,17 @@ public class Item {
         descripton.setText(mtextContext);
         timeTextView.setText(mdate);
         imageView.setImageDrawable(mlogo);
+
+        progressBar.setMax(mar.get(0));
+        progressBar.setProgress(mar.get(1));
+       // Log.i(ar.get(1).toString(), ar.get(2).toString());
+
+       // progressBar.setSecondaryProgress(progressBar.getMax());
+
+         textToShowTheProgress.setText(mar.get(1) + " / " + mar.get(0));
     }
+
+
 
     @LoadMore
     private void loadMore(){
@@ -83,6 +110,7 @@ public class Item {
     private void onClickYes(){
         Log.i("yes", "yes");
     }
+
 
     @Click(R.id.buttonNo)
     private void onClickNo(){
