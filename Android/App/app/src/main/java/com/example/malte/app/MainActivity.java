@@ -21,6 +21,6 @@ public class MainActivity extends AppCompatActivity {
 //      .setLayoutManager(new GridLayoutManager(this, 3));
 
         mGalleryView
-                .addView(new Item(this.getApplicationContext(), mGalleryView, "https://raw.githubusercontent.com/Jugendhackt/DatenParty/master/logo.png"));
+                .addView(new Item(this.getApplicationContext(), mGalleryView, "http://inthecheesefactory.com/uploads/source/glidepicasso/cover.jpg"));
     }
 }
