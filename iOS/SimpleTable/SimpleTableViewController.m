@@ -30,6 +30,9 @@ UIRefreshControl * refreshControl;
 }
 NSTimer *updateTimer;
 bool makeEmpty=NO;
+bool upBool=NO;
+bool downBool=NO;
+int cellColorChange;
 @synthesize tableView, headerView, reloadButton;
 
 - (void)viewDidLoad
@@ -164,7 +167,9 @@ bool makeEmpty=NO;
 
     cell.layer.cornerRadius = 10;
     cell.trustBar.layer.cornerRadius = 2;
-    if(indexPath.row!=0){
+    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+    [cell.trustBar.backgroundColor getRed:&red green:&green blue:&blue alpha:&alpha];
+    if(upBool==NO&&downBool==NO){
     float trust = [[TrustData objectAtIndex:indexPath.row] floatValue];
         NSLog(@"%d %f", indexPath.row, trust);
         if(trust<=0.5){
@@ -172,6 +177,21 @@ bool makeEmpty=NO;
         }else{
             cell.trustBar.backgroundColor = [UIColor colorWithRed:2*(1-trust) green:1 blue:0 alpha:1];
         }
+    }else if(upBool==YES&&red>=0&&red<=1&&cellColorChange==indexPath.row){
+        CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+        [cell.trustBar.backgroundColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        red=red-0.1;
+        cell.trustBar.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
+        upBool=NO;
+        NSLog(@"%f %f %f", red, green, blue);
+    }else if(downBool==YES&&red>=0&&red<=1&&cellColorChange==indexPath.row){
+        CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+        [cell.trustBar.backgroundColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        red=red+0.1;
+        
+        cell.trustBar.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
+        downBool=NO;
+        NSLog(@"%f %f %f", red, green, blue);
     }
     return cell;
     [self.tableView reloadData];
@@ -202,27 +222,31 @@ bool makeEmpty=NO;
 
 -(void)linkDown:(UIButton*)sender
 {
-    NSLog(@"Link %d",sender.tag);
-    NSLog(@"%@", [LinkData objectAtIndex:sender.tag]);
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[LinkData objectAtIndex:sender.tag]]];
 }
 
 -(void)trustButtonDown:(UIButton*)sender
 {
-    NSLog(@"URL %@",[NSString stringWithFormat:@"http://maschini.de/datenparty/up/%@", [TweetidData objectAtIndex:sender.tag]]);
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/up/%@", [TweetidData objectAtIndex:sender.tag]]];
     NSError *error;
     NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
-    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
-
+    upBool=YES;
+    makeEmpty = YES;
+    [self.tableView reloadData];
+    makeEmpty = NO;
+    cellColorChange=sender.tag;
 }
 
 -(void)untrustButtonDown:(UIButton*)sender
 {
-    NSLog(@"URL %@",[NSString stringWithFormat:@"http://maschini.de/datenparty/down/%@", [TweetidData objectAtIndex:sender.tag]]);
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/down/%@", [TweetidData objectAtIndex:sender.tag]]];
     NSError *error;
     NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
+    downBool=YES;
+    makeEmpty = YES;
+    [self.tableView reloadData];
+    makeEmpty = NO;
+    cellColorChange=sender.tag;
 }
 
 - (IBAction)reload:(id)sender {
