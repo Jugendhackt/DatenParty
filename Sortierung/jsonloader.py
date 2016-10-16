@@ -5,13 +5,6 @@ import random
 r = requests.get('http://loklak.org/api/search.json?timezoneOffset=-120&q=from%3Atagesschau')
 t = requests.get('http://loklak.org/api/search.json?timezoneOffset=-120&q=from%3Azeitonline')
 
-def extract_time(json):
-    try:
-        # Also convert to int since update_time will be string.  When comparing
-        # strings, "10" is smaller than "2".
-        return int(json["statuses"][0]["created_at"])
-    except KeyError:
-        return 0
 
 def hashashtag(tweet):
     wordsoftweet = tweet.split()
@@ -59,6 +52,8 @@ for statusescounterzeit in range(0,statuseszeitcounter):
     if not loklaktext.startswith("@") and not hashashtag(zeittext):
         zeittweets = {"tweet":zeittext, "date":createdatzeit, "profilname":namezeit, "profilimage":profilimageurlzeit, "tweetid":idzeit, "tweetlink":linkzeit, "trustlevel":trustlevelzeit}
         tweetlist.append(zeittweets)
+
 fp = open("tweets.json", "w")
+tweetlist.sort(key=lambda t: t["date"] , reverse=True)
 json.dump(tweetlist, fp)
 fp.close()       
