@@ -5,6 +5,14 @@ import random
 r = requests.get('http://loklak.org/api/search.json?timezoneOffset=-120&q=from%3Atagesschau')
 t = requests.get('http://loklak.org/api/search.json?timezoneOffset=-120&q=from%3Azeitonline')
 
+def extract_time(json):
+    try:
+        # Also convert to int since update_time will be string.  When comparing
+        # strings, "10" is smaller than "2".
+        return int(json["statuses"][0]["created_at"])
+    except KeyError:
+        return 0
+
 def hashashtag(tweet):
     wordsoftweet = tweet.split()
     uselesshashtagsfile = open("uselesswords.txt")
@@ -14,6 +22,7 @@ def hashashtag(tweet):
         if ishashtagintext:
             return True
     return False
+
 
 tweetlist = []
 loklakjson = r.json()
@@ -42,11 +51,11 @@ for statusescounterzeit in range(0,statuseszeitcounter):
     createdatzeit = createdatzeit[:-5]
     createdatzeit = datetime.datetime.strptime(createdatzeit,"%Y-%m-%dT%H:%M:%S")
     createdatzeit = createdatzeit.strftime("%H:%M:%S")
-    namezeit = zeitjson["statuses"][statuseszeitcounter]["user"]["screen_name"]
-    profilimageurlzeit = zeitjson["statuses"][statuseszeitcounter]["user"]["profile_image_url_https"]
-    linkzeit = zeitjson["statuses"][statuseszeitcounter]["link"]
+    namezeit = zeitjson["statuses"][statusescounterzeit]["user"]["screen_name"]
+    profilimageurlzeit = zeitjson["statuses"][statusescounterzeit]["user"]["profile_image_url_https"]
+    linkzeit = zeitjson["statuses"][statusescounterzeit]["link"]
     trustlevelzeit = random.uniform(0.2, 1.0)
-    idzeit = zeitjson["statuses"][statuseszeitcounter]["id_str"]
+    idzeit = zeitjson["statuses"][statusescounterzeit]["id_str"]
     if not loklaktext.startswith("@") and not hashashtag(zeittext):
         zeittweets = {"tweet":zeittext, "date":createdatzeit, "profilname":namezeit, "profilimage":profilimageurlzeit, "tweetid":idzeit, "tweetlink":linkzeit, "trustlevel":trustlevelzeit}
         tweetlist.append(zeittweets)
