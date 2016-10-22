@@ -36,7 +36,15 @@ for statuses in range(0,statusescounter):
     trustlevel = random.uniform(0.2, 1.0)
     id = loklakjson["statuses"][statuses]["id_str"]
     if not loklaktext.startswith("@") and not hashashtag(loklaktext):
-        tweet = {"tweet":loklaktext, "date":createdat, "profilname":name, "profilimage":profilimageurl, "tweetid":id, "tweetlink":link, "trustlevel":trustlevel}
+        tweet = {"tweet":loklaktext,
+                 "date":createdat,
+                 "profilname":name,
+                 "profilimage":profilimageurl,
+                 "tweetid":id,
+                 "tweetlink":link,
+                 "trustlevel":trustlevel,
+                 "yes":random.randint(13, 37),
+                 "no":random.randint(13, 37)}
         tweetlist.append(tweet)
 for statusescounterzeit in range(0,statuseszeitcounter):
     zeittext = zeitjson["statuses"][statusescounterzeit]["text"]
@@ -50,7 +58,16 @@ for statusescounterzeit in range(0,statuseszeitcounter):
     trustlevelzeit = random.uniform(0.2, 1.0)
     idzeit = zeitjson["statuses"][statusescounterzeit]["id_str"]
     if not loklaktext.startswith("@") and not hashashtag(zeittext):
-        zeittweets = {"tweet":zeittext, "date":createdatzeit, "profilname":namezeit, "profilimage":profilimageurlzeit, "tweetid":idzeit, "tweetlink":linkzeit, "trustlevel":trustlevelzeit}
+        zeittweets = {"tweet":zeittext,
+                      "date":createdatzeit,
+                      "profilname":namezeit,
+                      "profilimage":profilimageurlzeit,
+                      "tweetid":idzeit,
+                      "tweetlink":linkzeit,
+                      "trustlevel":trustlevelzeit,
+                      "yes": random.randint(13, 37),
+                      "no": random.randint(13, 37)
+                      }
         tweetlist.append(zeittweets)
 
 fp = open("tweets.json", "w")
