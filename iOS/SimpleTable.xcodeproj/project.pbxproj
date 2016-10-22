@@ -11,7 +11,6 @@
 		181ABEF21DB26608007E1266 /* Refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 181ABEF11DB26608007E1266 /* Refresh.png */; };
 		181ABEF41DB26E29007E1266 /* DatenParty.png in Resources */ = {isa = PBXBuildFile; fileRef = 181ABEF31DB26E29007E1266 /* DatenParty.png */; };
 		181ABEF61DB2707E007E1266 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 181ABEF51DB2707E007E1266 /* QuartzCore.framework */; };
-		181ABEF81DB2B4AC007E1266 /* tweet.json in Resources */ = {isa = PBXBuildFile; fileRef = 181ABEF71DB2B4AC007E1266 /* tweet.json */; };
 		181ABEFA1DB2CC28007E1266 /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = 181ABEF91DB2CC28007E1266 /* AppIcon.appiconset */; };
 		181FC60D1DB2364500B8FBE9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 181FC60C1DB2364500B8FBE9 /* Launch Screen.storyboard */; };
 		181FC6111DB2443100B8FBE9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 181FC6101DB2443100B8FBE9 /* Images.xcassets */; };
@@ -33,7 +32,6 @@
 		181ABEF11DB26608007E1266 /* Refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Refresh.png; sourceTree = "<group>"; };
 		181ABEF31DB26E29007E1266 /* DatenParty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DatenParty.png; sourceTree = "<group>"; };
 		181ABEF51DB2707E007E1266 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		181ABEF71DB2B4AC007E1266 /* tweet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tweet.json; sourceTree = "<group>"; };
 		181ABEF91DB2CC28007E1266 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AppIcon.appiconset; sourceTree = "<group>"; };
 		181FC60C1DB2364500B8FBE9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		181FC6101DB2443100B8FBE9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -114,7 +112,6 @@
 				181FC60C1DB2364500B8FBE9 /* Launch Screen.storyboard */,
 				F479E158155E3E99005C48B1 /* recipes.plist */,
 				181ABEEF1DB25DBC007E1266 /* generated.json */,
-				181ABEF71DB2B4AC007E1266 /* tweet.json */,
 				181ABEF11DB26608007E1266 /* Refresh.png */,
 				181ABEF31DB26E29007E1266 /* DatenParty.png */,
 				181FC6101DB2443100B8FBE9 /* Images.xcassets */,
@@ -196,7 +193,6 @@
 				F4FFD31B153BF3E900759785 /* SimpleTableViewController.xib in Resources */,
 				181ABEFA1DB2CC28007E1266 /* AppIcon.appiconset in Resources */,
 				181ABEF01DB25DBC007E1266 /* generated.json in Resources */,
-				181ABEF81DB2B4AC007E1266 /* tweet.json in Resources */,
 				F4DBB63E154CC10B00904C6A /* SimpleTableCell.xib in Resources */,
 				F479E159155E3E99005C48B1 /* recipes.plist in Resources */,
 				181ABEF21DB26608007E1266 /* Refresh.png in Resources */,

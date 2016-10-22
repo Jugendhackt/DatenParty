@@ -20,5 +20,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnailImageView;
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (weak, nonatomic) IBOutlet UIView *trustBar;
+@property (weak, nonatomic) IBOutlet UIButton *untrustButton;
+@property (weak, nonatomic) IBOutlet UIButton *trustButton;
 
 @end

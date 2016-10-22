@@ -33,12 +33,15 @@ bool makeEmpty=NO;
 bool upBool=NO;
 bool downBool=NO;
 int cellColorChange;
+int reload = 0;
+int cellHeight = 200;
+NSData* jsonData;
 @synthesize tableView, headerView, reloadButton;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //updateTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(reloadAction) userInfo:nil repeats:YES];
+    updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(reloadAction) userInfo:nil repeats:NO];
     
     refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:refreshControl];
@@ -61,6 +64,15 @@ int cellColorChange;
     headerView.layer.shadowRadius = 8.0f;
     headerView.layer.shadowOpacity = 0.7f;
     headerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:headerView.layer.bounds] CGPath];
+    makeEmpty = YES;
+    [self.tableView reloadData];
+    makeEmpty = NO;
+    [refreshControl endRefreshing];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    NSError *error;
+    NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://raw.githubusercontent.com/Jugendhackt/DatenParty/master/Sortierung/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
+    jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    });
 }
 
 - (void)viewDidUnload
@@ -71,10 +83,10 @@ int cellColorChange;
 
 
 - (void)refreshTable {
+    [refreshControl endRefreshing];
     makeEmpty = YES;
     [self.tableView reloadData];
     makeEmpty = NO;
-    [refreshControl endRefreshing];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -84,16 +96,26 @@ int cellColorChange;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSError *error;
+    NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://raw.githubusercontent.com/Jugendhackt/DatenParty/master/Sortierung/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
+    NSData* jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *jsonError;
+    NSLog(@"Data 1");
+    id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
+    
     if(makeEmpty){
-        return 4;
+        return [allKeys count];
     }else{
         return [NameData count];
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 160;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [self calculateHeightForConfiguredSizingCell:indexPath];
+}
+
+- (CGFloat)calculateHeightForConfiguredSizingCell:(NSIndexPath *)indexPath {
+    return cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -106,10 +128,9 @@ int cellColorChange;
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SimpleTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    NSString* path  = [[NSBundle mainBundle] pathForResource:@"tweet" ofType:@"json"];
-    NSString* jsonString = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    NSData* jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+
     NSError *jsonError;
+    NSLog(@"Data 2");
     id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
     for (int i=0; i<[allKeys count]; i++) {
         NSDictionary *arrayResult = [allKeys objectAtIndex:i];
@@ -121,49 +142,39 @@ int cellColorChange;
         TextData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"tweet"]];
         TweetidData = [TweetidData arrayByAddingObject:[arrayResult objectForKey:@"tweetid"]];
     }
-    cell.cellView.layer.cornerRadius = 5;
-    cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
-    cell.cellView.layer.shadowColor = [UIColor blackColor].CGColor;
-    cell.cellView.layer.shadowRadius = 5.0f;
-    cell.cellView.layer.shadowOpacity = 0.7f;
-    cell.cellView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:cell.cellView.layer.bounds] CGPath];
+
     cell.NameLabel.text = [NameData objectAtIndex:indexPath.row];
     cell.thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [thumbnails objectAtIndex:indexPath.row]]]]];
     cell.thumbnailImageView.layer.cornerRadius = 5;
     cell.thumbnailImageView.layer.masksToBounds = YES;
     cell.TimeLabel.text = [TimeData objectAtIndex:indexPath.row];
     cell.TextLabel.text = [TextData objectAtIndex:indexPath.row];
+    cell.TextLabel.frame = CGRectMake(60, 37, cell.TextLabel.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f))*13.5);
+    cell.cellView.frame = CGRectMake(cell.cellView.frame.origin.x, cell.cellView.frame.origin.y, cell.cellView.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+7)*13.5);
+    cell.cellView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:cell.cellView.layer.bounds] CGPath];
+    cell.cellView.layer.cornerRadius = 5;
+    cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
+    cell.cellView.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.cellView.layer.shadowRadius = 5.0f;
+    cell.cellView.layer.shadowOpacity = 0.7f;
+    cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+12)*13.5);
+    
+    cell.trustButton.tag = indexPath.row;
+    [cell.trustButton addTarget:self
+                 action:@selector(trustButtonDown:)
+       forControlEvents:UIControlEventTouchUpInside];
+    
+    cell.untrustButton.tag = indexPath.row;
+    [cell.untrustButton addTarget:self
+                         action:@selector(untrustButtonDown:)
+               forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *linkButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
     linkButton.tag=indexPath.row;
     [linkButton addTarget:self
-                 action:@selector(linkDown:) forControlEvents:UIControlEventTouchDown];
-    linkButton.frame = CGRectMake(17, 16, 287, 140);
+                 action:@selector(linkDown:) forControlEvents:UIControlEventTouchUpInside];
+    linkButton.frame = CGRectMake(30, 40, 265, cell.TextLabel.frame.size.height+20);
     [cell.contentView addSubview:linkButton];
-    
-    UIButton *upButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    upButton.tag=indexPath.row;
-    [upButton addTarget:self
-                   action:@selector(trustButtonDown:) forControlEvents:UIControlEventTouchDown];
-    [upButton setTitle:@"Vertrauen" forState:UIControlStateNormal];
-    [upButton setTitleColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:1] forState:UIControlStateNormal];
-    upButton.frame = CGRectMake(30, 110, 126, 33);
-    [cell.contentView addSubview:upButton];
-    /*upButton.layer.cornerRadius = 5;
-    upButton.layer.borderWidth = 2.0f;
-    upButton.layer.borderColor = [UIColor grayColor].CGColor;*/
-    
-    UIButton *downButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    downButton.tag=indexPath.row;
-    [downButton addTarget:self
-               action:@selector(untrustButtonDown:) forControlEvents:UIControlEventTouchDown];
-    [downButton setTitle:@"Nicht vertrauen" forState:UIControlStateNormal];
-    [downButton setTitleColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1] forState:UIControlStateNormal];
-    downButton.frame = CGRectMake(170, 110, 126, 33);
-    [cell.contentView addSubview:downButton];
-    /*downButton.layer.cornerRadius = 5;
-    downButton.layer.borderWidth = 2.0f;
-    downButton.layer.borderColor = [UIColor grayColor].CGColor;*/
 
     cell.layer.cornerRadius = 10;
     cell.trustBar.layer.cornerRadius = 2;
@@ -183,16 +194,17 @@ int cellColorChange;
         red=red-0.1;
         cell.trustBar.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
         upBool=NO;
-        NSLog(@"%f %f %f", red, green, blue);
+
     }else if(downBool==YES&&red>=0&&red<=1&&cellColorChange==indexPath.row){
         CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
         [cell.trustBar.backgroundColor getRed:&red green:&green blue:&blue alpha:&alpha];
         red=red+0.1;
-        
         cell.trustBar.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
         downBool=NO;
-        NSLog(@"%f %f %f", red, green, blue);
+        //NSLog(@"%f %f %f", red, ,);
     }
+    reload = 1;
+    cellHeight=cell.TextLabel.frame.size.height+120;
     return cell;
     [self.tableView reloadData];
 }
@@ -235,6 +247,7 @@ int cellColorChange;
     [self.tableView reloadData];
     makeEmpty = NO;
     cellColorChange=sender.tag;
+    NSLog(@"Trust %d", sender.tag);
 }
 
 -(void)untrustButtonDown:(UIButton*)sender
@@ -259,6 +272,15 @@ int cellColorChange;
     makeEmpty = YES;
     [self.tableView reloadData];
     makeEmpty = NO;
+    [self.tableView endUpdates];
+}
+
+-(float)roundUp:(float)input{
+    float z=1.0f;
+    while(input>=13.333*z){
+        z++;
+    }
+    return 13.333*z;
 }
 @end
 
