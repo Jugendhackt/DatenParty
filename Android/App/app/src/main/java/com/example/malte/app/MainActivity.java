@@ -9,10 +9,13 @@ import com.mindorks.placeholderview.PlaceHolderView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,11 +38,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         try {
-           // JSONObject jObject = new JSONObject(result);
             InputStream stream = getResources().openRawResource(R.raw.tweets);
-            
-            Log.d("DatenParty", str);
-            JSONArray jArray = new JSONArray(str);//jObject.getJSONArray("");
+            InputStreamReader reader = new InputStreamReader(stream);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            StringBuilder text = new StringBuilder();
+            try {
+                while (( line = bufferedReader.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+            } catch (Exception e) {
+                Log.e("DatenParty", "Exception");
+            }
+            String result = text.toString();
+            JSONArray jArray = new JSONArray(result);
             for (int i=0; i < jArray.length(); i++) {
                 JSONObject oneObject = jArray.getJSONObject(i);
                 String profilname = oneObject.getString("profilname");
@@ -52,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 //                DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
 //                String datum = format.parse(date).toString();
                 String dateString = "2010-03-01T00:00:00-08:00";
-                String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+                String pattern = "HH:mm:ss";
                 SimpleDateFormat sdf = new SimpleDateFormat(pattern);
                 Date daten = sdf.parse(date);
 
