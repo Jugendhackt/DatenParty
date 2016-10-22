@@ -1,13 +1,4 @@
-//
-//  SimpleTableAppDelegate.m
-//  SimpleTable
-//
-//  Created by Simon Ng on 16/4/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
 #import "SimpleTableAppDelegate.h"
-
 #import "SimpleTableViewController.h"
 
 @implementation SimpleTableAppDelegate

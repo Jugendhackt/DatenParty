@@ -1,10 +1,3 @@
-//
-//  SimpleTableViewController.m
-//  SimpleTable
-//
-//  Created by Simon Ng on 16/4/12.
-//  Copyright (c) 2012 AppCoda. All rights reserved.
-//
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define SPIN_CLOCK_WISE 1
 #define SPIN_COUNTERCLOCK_WISE -1
@@ -47,7 +40,7 @@ NSData* jsonData;
     [self.tableView addSubview:refreshControl];
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
 
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"recipes" ofType:@"plist"];    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"tweets" ofType:@"plist"];
 
     // Load the file content and read the data into arrays
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
