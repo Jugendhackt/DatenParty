@@ -2,6 +2,7 @@ package com.example.malte.app;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,6 +22,11 @@ import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.infinite.LoadMore;
 
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -28,8 +34,7 @@ import java.util.ArrayList;
 @NonReusable
 @Layout(R.layout.item_in_list)
 
-public class
-Item {
+public class Item {
 
 
     @View(R.id.title)
@@ -61,11 +66,11 @@ Item {
     private String msrc;
     private Context mContext;
     private PlaceHolderView mPlaceHolderView;
-    //private Drawable mlogo;
     private String murl;
     private ArrayList<Integer> mar ;
+    private PlaceHolderView mView;
 
-    public Item(Context context, PlaceHolderView placeHolderView, String url, String text, String contexttext, String srcText, String dateText,ArrayList<Integer> ar) {
+    public Item(Context context, PlaceHolderView placeHolderView, String url, String text, String contexttext, String srcText, String dateText,ArrayList<Integer> ar, PlaceHolderView view) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
         mtextTitle = text;
@@ -74,27 +79,21 @@ Item {
         msrc = srcText;
 
         murl = url;
-        //mlogo = logo;
         mar = ar;
+        mView = view;
     }
 
     @Resolve
     private void onResolved() {
         Pearl.imageLoader(mContext,murl,imageView, R.drawable.logo);
-        //Glide.with(mContext).load(murl).into(imageView);
         srcTextView.setText(msrc);
         title.setText(mtextTitle);
         descripton.setText(mtextContext);
         timeTextView.setText(mdate);
-        //imageView.setImageDrawable(mlogo);
 
         progressBar.setMax(mar.get(0));
         progressBar.setProgress(mar.get(1));
-       // Log.i(ar.get(1).toString(), ar.get(2).toString());
-
-       // progressBar.setSecondaryProgress(progressBar.getMax());
-
-         textToShowTheProgress.setText(mar.get(1) + " / " + mar.get(0));
+        textToShowTheProgress.setText(mar.get(1) + " / " + mar.get(0));
     }
 
 
@@ -111,14 +110,16 @@ Item {
 
     @Click(R.id.buttonYes)
     private void onClickYes(){
-        Log.i("yes", "yes");
+        mar.set(1, mar.get(1)+1);
+        mar.set(0, mar.get(0)+1);
+        mView.refresh();
     }
 
 
     @Click(R.id.buttonNo)
     private void onClickNo(){
-        Log.i("No", "No");
-//        mPlaceHolderView.removeView(Item.this);
+        mar.set(0, mar.get(0)+1);
+        mView.refresh();
     }
 
 }

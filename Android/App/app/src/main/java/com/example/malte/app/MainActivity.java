@@ -21,13 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
         PlaceHolderView mGalleryView = (PlaceHolderView) findViewById(R.id.galleryView);
 
-// (Optional): If customisation is Required then use Builder with the PlaceHolderView
-// placeHolderView.getBuilder()
-//      .setHasFixedSize(false)
-//      .setItemViewCacheSize(10)
-//      .setLayoutManager(new GridLayoutManager(this, 3));
-
-
         try {
             InputStream stream = getResources().openRawResource(R.raw.tweets);
             InputStreamReader reader = new InputStreamReader(stream);
@@ -42,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Log.e("DatenParty", "Exception");
             }
-            String result = text.toString();
-            JSONArray jArray = new JSONArray(result);
+            JSONArray jArray = new JSONArray(text.toString());
             for (int i=0; i < jArray.length(); i++) {
                 JSONObject oneObject = jArray.getJSONObject(i);
                 String profilname = oneObject.getString("profilname");
@@ -52,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
                 String tweetlink = oneObject.getString("tweetlink");
                 String profilimage = oneObject.getString("profilimage");
                 String date = oneObject.getString("date");
-                out(date);
+                int yes = oneObject.getInt("yes");
+                int no = oneObject.getInt("no");
+                int total = yes+no;
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(total);
+                list.add(yes);
 
                 String pattern = "HH:mm:ss";
                 SimpleDateFormat sdf = new SimpleDateFormat(pattern);
@@ -60,26 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                 mGalleryView.addView(new Item(this.getApplicationContext(), mGalleryView,
-                        profilimage, profilname, tweet, "", dateFormat.format(daten), getVotes()));
+                        profilimage, profilname, tweet, "", dateFormat.format(daten), list, mGalleryView));
             }
         } catch (Exception e){
             e.printStackTrace();
         }
     }
-    private ArrayList<Integer> getVotes() {
-        int x;
-        int y;
-        do {
-            x = (int) (Math.random() * 100);
-            y = (int) (Math.random() * 100);
-        } while (x < y);
-        ArrayList<Integer> ar = new ArrayList<>();
-        ar.add(x); // 0
-        ar.add(y); // 1
-
-        return ar;
-    }
-
+    
     private void out(String x) {
         Log.d("DatenParty", x);
     }
