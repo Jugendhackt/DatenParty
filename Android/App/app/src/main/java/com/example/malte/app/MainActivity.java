@@ -6,36 +6,45 @@ import android.util.Log;
 
 import com.mindorks.placeholderview.PlaceHolderView;
 
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.*;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
+
+    PlaceHolderView mGalleryView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PlaceHolderView mGalleryView = (PlaceHolderView) findViewById(R.id.galleryView);
+        mGalleryView = (PlaceHolderView) findViewById(R.id.galleryView);
 
         try {
-            InputStream stream = getResources().openRawResource(R.raw.tweets);
-            InputStreamReader reader = new InputStreamReader(stream);
-            BufferedReader bufferedReader = new BufferedReader(reader);
+            InputStream in = getResources().openRawResource(R.raw.tweets);
+            InputStreamReader inputreader = new InputStreamReader(in);
+            BufferedReader buffreader = new BufferedReader(inputreader);
             String line;
             StringBuilder text = new StringBuilder();
             try {
-                while (( line = bufferedReader.readLine()) != null) {
+                while (( line = buffreader.readLine()) != null) {
                     text.append(line);
                     text.append('\n');
                 }
-            } catch (Exception e) {
-                Log.e("DatenParty", "Exception");
+            } catch (IOException e) {
+                out("Error");
             }
-            JSONArray jArray = new JSONArray(text.toString());
+            String result = text.toString();
+            JSONArray jArray = new JSONArray(result);
             for (int i=0; i < jArray.length(); i++) {
                 JSONObject oneObject = jArray.getJSONObject(i);
                 String profilname = oneObject.getString("profilname");
@@ -63,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    
+
     private void out(String x) {
         Log.d("DatenParty", x);
     }
