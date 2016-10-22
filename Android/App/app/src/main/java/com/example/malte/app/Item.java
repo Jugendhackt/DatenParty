@@ -24,9 +24,6 @@ import com.mindorks.placeholderview.annotations.infinite.LoadMore;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/**
- * Created by blackpython on 10/15/16.
- */
 @Animate(Animation.FADE_IN_ASC)
 @NonReusable
 @Layout(R.layout.item_in_list)
