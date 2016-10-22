@@ -6,20 +6,11 @@ import android.util.Log;
 
 import com.mindorks.placeholderview.PlaceHolderView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.text.DateFormat;
+import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,33 +52,19 @@ public class MainActivity extends AppCompatActivity {
                 String tweetlink = oneObject.getString("tweetlink");
                 String profilimage = oneObject.getString("profilimage");
                 String date = oneObject.getString("date");
+                out(date);
 
-//                DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
-//                String datum = format.parse(date).toString();
-                String dateString = "2010-03-01T00:00:00-08:00";
                 String pattern = "HH:mm:ss";
                 SimpleDateFormat sdf = new SimpleDateFormat(pattern);
                 Date daten = sdf.parse(date);
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-                   // Date newdate = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                 mGalleryView.addView(new Item(this.getApplicationContext(), mGalleryView,
                         profilimage, profilname, tweet, "", dateFormat.format(daten), getVotes()));
             }
-
-//            String profilname = jObject.getString("profilname");
-  //          String
-
         } catch (Exception e){
             e.printStackTrace();
         }
-
-        //mGalleryView.addView(new Item(this.getApplicationContext(), mGalleryView, getResources().getDrawable(R.drawable.bild), "Trump lästerte über Sex mit Lindsay Lohan" , "„Sie ist vermutlich in einer Krise und darum super im Bett“", "@bild", "15.10.16", har));
-       // mGalleryView.addView(new Item(this.getApplicationContext(), mGalleryView, getResources().getDrawable(R.drawable.tagesschow), "Bundesliga" , "„Köln bleibt auf Champions-League-Kurs“", "@tagesschau", "15.10.16", getVotes()));
-
-
-       // mGalleryView.addView(new Item(this.getApplicationContext(), mGalleryView, getResources().getDrawable(R.drawable.bild), "Süßlicher Geruch in der Luft" , "„Drogenplantage bei Löscharbeiten gefunden“", "@bild", "14.10.16",getVotes()));
-
     }
     private ArrayList<Integer> getVotes() {
         int x;
@@ -103,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         return ar;
     }
 
-    private <T> void out(T... x) {
-        System.out.println(Arrays.toString(x));
+    private void out(String x) {
+        Log.d("DatenParty", x);
     }
 }
