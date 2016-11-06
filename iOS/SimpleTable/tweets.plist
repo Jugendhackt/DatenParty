@@ -2,21 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Time</key>
+	<key>date</key>
 	<array/>
-	<key>AccountIcon</key>
+	<key>no</key>
 	<array/>
-	<key>Name</key>
+	<key>yes</key>
 	<array/>
-	<key>Account</key>
+	<key>author</key>
 	<array/>
-	<key>Text</key>
+	<key>link</key>
 	<array/>
-	<key>Link</key>
+	<key>id</key>
 	<array/>
-	<key>Tweetid</key>
-	<array/>
-	<key>Trust</key>
+	<key>article</key>
 	<array/>
 </dict>
 </plist>

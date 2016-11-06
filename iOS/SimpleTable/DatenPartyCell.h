@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface SimpleTableCell : UITableViewCell
+@interface DatenPartyCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *NameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *AccountNameLabel;

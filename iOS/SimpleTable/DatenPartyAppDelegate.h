@@ -1,11 +1,11 @@
 #import <UIKit/UIKit.h>
 
-@class SimpleTableViewController;
+@class DatenPartyViewController;
 
-@interface SimpleTableAppDelegate : UIResponder <UIApplicationDelegate>
+@interface DatenPartyAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) SimpleTableViewController *viewController;
+@property (strong, nonatomic) DatenPartyViewController *viewController;
 
 @end

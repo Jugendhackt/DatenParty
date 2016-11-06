@@ -1,27 +1,30 @@
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define SPIN_CLOCK_WISE 1
 #define SPIN_COUNTERCLOCK_WISE -1
-#import "SimpleTableViewController.h"
-#import "SimpleTableCell.h"
+#import "DatenPartyViewController.h"
+#import "DatenPartyCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
 
-@interface SimpleTableViewController ()
+@interface DatenPartyViewController ()
 
 @end
 UIRefreshControl * refreshControl;
-@implementation SimpleTableViewController
+@implementation DatenPartyViewController
 {
     NSArray *NameData;
     NSArray *thumbnails;
     NSArray *TimeData;
-    NSArray *AccountNameData;
     NSArray *TextData;
     NSArray *LinkData;
-    NSArray *TrustData;
+    NSArray *YesData;
+    NSArray *NoData;
     NSArray *TweetidData;
 }
+UIAlertController *networkAlert;
 NSTimer *updateTimer;
+NSTimer *networkTimer;
 bool makeEmpty=NO;
 bool upBool=NO;
 bool downBool=NO;
@@ -34,38 +37,72 @@ NSData* jsonData;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(reloadAction) userInfo:nil repeats:NO];
-    
-    refreshControl = [[UIRefreshControl alloc]init];
-    [self.tableView addSubview:refreshControl];
-    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
-
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"tweets" ofType:@"plist"];
-
-    // Load the file content and read the data into arrays
-    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
-    NameData = [dict objectForKey:@"Name"];
-    thumbnails = [dict objectForKey:@"AccountIcon"];
-    TimeData = [dict objectForKey:@"Time"];
-    LinkData = [dict objectForKey:@"Link"];
-    TrustData = [dict objectForKey:@"Trust"];
-    TextData = [dict objectForKey:@"Text"];
-    TweetidData = [dict objectForKey:@"Tweetid"];
-    AccountNameData = [dict objectForKey:@"Account"];
-    headerView.layer.shadowOffset = CGSizeMake(0, 2);
-    headerView.layer.shadowColor = [UIColor blackColor].CGColor;
-    headerView.layer.shadowRadius = 8.0f;
-    headerView.layer.shadowOpacity = 0.7f;
-    headerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:headerView.layer.bounds] CGPath];
-    makeEmpty = YES;
-    [self.tableView reloadData];
-    makeEmpty = NO;
-    [refreshControl endRefreshing];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    NSError *error;
-    NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://raw.githubusercontent.com/Jugendhackt/DatenParty/master/Sortierung/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
-    jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    });
+    if([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]!=NotReachable){
+        updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(reloadAction) userInfo:nil repeats:NO];
+        
+        refreshControl = [[UIRefreshControl alloc]init];
+        [self.tableView addSubview:refreshControl];
+        [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+        
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"tweets" ofType:@"plist"];
+        
+        // Load the file content and read the data into arrays
+        NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
+        NameData = [dict objectForKey:@"author"];
+        thumbnails = [dict objectForKey:@"author"];
+        TimeData = [dict objectForKey:@"date"];
+        LinkData = [dict objectForKey:@"link"];
+        YesData = [dict objectForKey:@"yes"];
+        NoData = [dict objectForKey:@"no"];
+        TextData = [dict objectForKey:@"article"];
+        TweetidData = [dict objectForKey:@"id"];
+        headerView.layer.shadowOffset = CGSizeMake(0, 2);
+        headerView.layer.shadowColor = [UIColor blackColor].CGColor;
+        headerView.layer.shadowRadius = 8.0f;
+        headerView.layer.shadowOpacity = 0.7f;
+        headerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:headerView.layer.bounds] CGPath];
+        makeEmpty = YES;
+        [self.tableView reloadData];
+        makeEmpty = NO;
+        [refreshControl endRefreshing];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSError *error;
+            NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https:/gambleit.tk/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
+            jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *jsonError;
+            id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
+            for (int i=0; i<[allKeys count]; i++) {
+                NSDictionary *arrayResult = [allKeys objectAtIndex:i];
+                NameData = [dict objectForKey:@"author"];
+                thumbnails = [dict objectForKey:@"author"];
+                TimeData = [dict objectForKey:@"date"];
+                LinkData = [dict objectForKey:@"link"];
+                YesData = [dict objectForKey:@"yes"];
+                NoData = [dict objectForKey:@"no"];
+                TextData = [dict objectForKey:@"article"];
+                TweetidData = [dict objectForKey:@"id"];
+            }
+        });
+    }else{
+        updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(reloadAction) userInfo:nil repeats:NO];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *jsonString = [NSString stringWithFormat:@"[{\"trustlevel\": \"\", \"yes\": 0, \"profilname\": \"\", \"date\": \"\", \"tweet\": \"\", \"tweetid\": \"\", \"profilimage\": \"\", \"tweetlink\": \"\", \"no\": 0}]"];
+            jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *jsonError;
+            id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
+            for (int i=0; i<[allKeys count]; i++) {
+                NSDictionary *arrayResult = [allKeys objectAtIndex:i];
+                TimeData = [TimeData arrayByAddingObject:[arrayResult objectForKey:@"date"]];
+                thumbnails = [thumbnails arrayByAddingObject:[arrayResult objectForKey:@"author"]];
+                NameData = [NameData arrayByAddingObject:[arrayResult objectForKey:@"author"]];
+                LinkData = [LinkData arrayByAddingObject:[arrayResult objectForKey:@"link"]];
+                TextData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"article"]];
+                TweetidData = [TweetidData arrayByAddingObject:[arrayResult objectForKey:@"id"]];
+                YesData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"yes"]];
+                NoData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"no"]];
+            }
+        });
+    }
 }
 
 - (void)viewDidUnload
@@ -74,12 +111,28 @@ NSData* jsonData;
     // Release any retained subviews of the main view.
 }
 
+-(void)networkTimer{
+    if([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]!=NotReachable){
+        [networkAlert dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
 
 - (void)refreshTable {
-    [refreshControl endRefreshing];
-    makeEmpty = YES;
-    [self.tableView reloadData];
-    makeEmpty = NO;
+    if([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]==NotReachable){
+        networkAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Check your network status." preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:networkAlert animated:YES completion:nil];
+        networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
+    }else{
+        NSError *error;
+        NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https:/gambleit.tk/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
+        jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        [self.tableView setContentOffset:CGPointZero animated:YES];
+        makeEmpty = YES;
+        [self.tableView reloadData];
+        makeEmpty = NO;
+        [self.tableView endUpdates];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -89,10 +142,12 @@ NSData* jsonData;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]!=NotReachable){
     NSError *error;
-    NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://raw.githubusercontent.com/Jugendhackt/DatenParty/master/Sortierung/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
-    NSData* jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *jsonError;
+    NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https:/gambleit.tk/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
+    NSLog(@"%@", jsonString);
+    jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"Data 1");
     id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
     
@@ -100,6 +155,11 @@ NSData* jsonData;
         return [allKeys count];
     }else{
         return [NameData count];
+    }
+    }else{
+        NSString *jsonString = [NSString stringWithFormat:@"[{\"trustlevel\": \"\", \"yes\": 0, \"profilname\": \"\", \"date\": \"\", \"tweet\": \"\", \"tweetid\": \"\", \"profilimage\": \"\", \"tweetlink\": \"\", \"no\": 0}]"];
+        jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        return 0;
     }
 }
 
@@ -113,93 +173,69 @@ NSData* jsonData;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *simpleTableIdentifier = @"SimpleTableCell";
+    if([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]!=NotReachable){
+        static NSString *DatenPartyIdentifier = @"DatenPartyCell";
+        
+        DatenPartyCell *cell = (DatenPartyCell *)[tableView dequeueReusableCellWithIdentifier:DatenPartyIdentifier];
+        if (cell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DatenPartyCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        NSLog(@"Data 2");
 
-    SimpleTableCell *cell = (SimpleTableCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    if (cell == nil) 
-    {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SimpleTableCell" owner:self options:nil];
-        cell = [nib objectAtIndex:0];
-    }
-
-    NSError *jsonError;
-    NSLog(@"Data 2");
-    id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
-    for (int i=0; i<[allKeys count]; i++) {
-        NSDictionary *arrayResult = [allKeys objectAtIndex:i];
-        TimeData = [TimeData arrayByAddingObject:[arrayResult objectForKey:@"date"]];
-        thumbnails = [thumbnails arrayByAddingObject:[arrayResult objectForKey:@"profilimage"]];
-        NameData = [NameData arrayByAddingObject:[arrayResult objectForKey:@"profilname"]];
-        LinkData = [LinkData arrayByAddingObject:[arrayResult objectForKey:@"tweetlink"]];
-        TrustData = [TrustData arrayByAddingObject:[arrayResult objectForKey:@"trustlevel"]];
-        TextData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"tweet"]];
-        TweetidData = [TweetidData arrayByAddingObject:[arrayResult objectForKey:@"tweetid"]];
-    }
-
-    cell.NameLabel.text = [NameData objectAtIndex:indexPath.row];
-    cell.thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [thumbnails objectAtIndex:indexPath.row]]]]];
-    cell.thumbnailImageView.layer.cornerRadius = 5;
-    cell.thumbnailImageView.layer.masksToBounds = YES;
-    cell.TimeLabel.text = [TimeData objectAtIndex:indexPath.row];
-    cell.TextLabel.text = [TextData objectAtIndex:indexPath.row];
-    cell.TextLabel.frame = CGRectMake(60, 37, cell.TextLabel.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f))*13.5);
-    cell.cellView.frame = CGRectMake(cell.cellView.frame.origin.x, cell.cellView.frame.origin.y, cell.cellView.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+7)*13.5);
-    cell.cellView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:cell.cellView.layer.bounds] CGPath];
-    cell.cellView.layer.cornerRadius = 5;
-    cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
-    cell.cellView.layer.shadowColor = [UIColor blackColor].CGColor;
-    cell.cellView.layer.shadowRadius = 5.0f;
-    cell.cellView.layer.shadowOpacity = 0.7f;
-    cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+12)*13.5);
-    
-    cell.trustButton.tag = indexPath.row;
-    [cell.trustButton addTarget:self
-                 action:@selector(trustButtonDown:)
-       forControlEvents:UIControlEventTouchUpInside];
-    
-    cell.untrustButton.tag = indexPath.row;
-    [cell.untrustButton addTarget:self
-                         action:@selector(untrustButtonDown:)
-               forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *linkButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    linkButton.tag=indexPath.row;
-    [linkButton addTarget:self
-                 action:@selector(linkDown:) forControlEvents:UIControlEventTouchUpInside];
-    linkButton.frame = CGRectMake(30, 40, 265, cell.TextLabel.frame.size.height+20);
-    [cell.contentView addSubview:linkButton];
-
-    cell.layer.cornerRadius = 10;
-    cell.trustBar.layer.cornerRadius = 2;
-    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
-    [cell.trustBar.backgroundColor getRed:&red green:&green blue:&blue alpha:&alpha];
-    if(upBool==NO&&downBool==NO){
-    float trust = [[TrustData objectAtIndex:indexPath.row] floatValue];
-        NSLog(@"%d %f", indexPath.row, trust);
+        
+        cell.NameLabel.text = [NameData objectAtIndex:indexPath.row];
+        cell.thumbnailImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", [thumbnails objectAtIndex:indexPath.row]]];
+        cell.thumbnailImageView.layer.cornerRadius = 5;
+        cell.thumbnailImageView.layer.masksToBounds = YES;
+        cell.TimeLabel.text = [TimeData objectAtIndex:indexPath.row];
+        cell.TextLabel.text = [TextData objectAtIndex:indexPath.row];
+        cell.TextLabel.frame = CGRectMake(60, 37, cell.TextLabel.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+1)*13.5);
+        cell.cellView.frame = CGRectMake(cell.cellView.frame.origin.x, cell.cellView.frame.origin.y, cell.cellView.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+8)*13.5);
+        cell.cellView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:cell.cellView.layer.bounds] CGPath];
+        cell.cellView.layer.cornerRadius = 5;
+        cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
+        cell.cellView.layer.shadowColor = [UIColor blackColor].CGColor;
+        cell.cellView.layer.shadowRadius = 5.0f;
+        cell.cellView.layer.shadowOpacity = 0.7f;
+        cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+13)*13.5);
+        
+        cell.trustButton.tag = indexPath.row;
+        [cell.trustButton addTarget:self
+                             action:@selector(trustButtonDown:)
+                   forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.untrustButton.tag = indexPath.row;
+        [cell.untrustButton addTarget:self
+                               action:@selector(untrustButtonDown:)
+                     forControlEvents:UIControlEventTouchUpInside];
+        
+        UIButton *linkButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        linkButton.tag=indexPath.row;
+        [linkButton addTarget:self
+                       action:@selector(linkDown:) forControlEvents:UIControlEventTouchUpInside];
+        linkButton.frame = CGRectMake(30, 40, 265, cell.TextLabel.frame.size.height+20);
+        [cell.contentView addSubview:linkButton];
+        
+        cell.layer.cornerRadius = 10;
+        cell.trustBar.layer.cornerRadius = 2;
+        CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+        [cell.trustBar.backgroundColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        float trust = [[YesData objectAtIndex:indexPath.row] floatValue]+[[NoData objectAtIndex:indexPath.row] floatValue];
+        NSLog(@"%f", [[YesData objectAtIndex:indexPath.row] floatValue]);
         if(trust<=0.5){
             cell.trustBar.backgroundColor = [UIColor colorWithRed:1 green:2*trust blue:0 alpha:1];
         }else{
             cell.trustBar.backgroundColor = [UIColor colorWithRed:2*(1-trust) green:1 blue:0 alpha:1];
         }
-    }else if(upBool==YES&&red>=0&&red<=1&&cellColorChange==indexPath.row){
-        CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
-        [cell.trustBar.backgroundColor getRed:&red green:&green blue:&blue alpha:&alpha];
-        red=red-0.1;
-        cell.trustBar.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
-        upBool=NO;
-
-    }else if(downBool==YES&&red>=0&&red<=1&&cellColorChange==indexPath.row){
-        CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
-        [cell.trustBar.backgroundColor getRed:&red green:&green blue:&blue alpha:&alpha];
-        red=red+0.1;
-        cell.trustBar.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
-        downBool=NO;
-        //NSLog(@"%f %f %f", red, ,);
+        reload = 1;
+        cellHeight=cell.TextLabel.frame.size.height+120;
+        sleep(0.3);
+        return cell;
+        [self.tableView reloadData];
     }
-    reload = 1;
-    cellHeight=cell.TextLabel.frame.size.height+120;
-    return cell;
-    [self.tableView reloadData];
+
 }
 
 - (void)spinLayer:(CALayer *)inLayer duration:(CFTimeInterval)inDuration
@@ -232,27 +268,39 @@ NSData* jsonData;
 
 -(void)trustButtonDown:(UIButton*)sender
 {
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/up/%@", [TweetidData objectAtIndex:sender.tag]]];
-    NSError *error;
-    NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
-    upBool=YES;
-    makeEmpty = YES;
-    [self.tableView reloadData];
-    makeEmpty = NO;
-    cellColorChange=sender.tag;
-    NSLog(@"Trust %d", sender.tag);
+    if([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]==NotReachable){
+        networkAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Check your network status." preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:networkAlert animated:YES completion:nil];
+        networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
+    }else{
+        NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/up/%@", [TweetidData objectAtIndex:sender.tag]]];
+        NSError *error;
+        NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
+        upBool=YES;
+        makeEmpty = YES;
+        [self.tableView reloadData];
+        makeEmpty = NO;
+        cellColorChange=sender.tag;
+        NSLog(@"Trust %d", sender.tag);
+    }
 }
 
 -(void)untrustButtonDown:(UIButton*)sender
 {
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/down/%@", [TweetidData objectAtIndex:sender.tag]]];
-    NSError *error;
-    NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
-    downBool=YES;
-    makeEmpty = YES;
-    [self.tableView reloadData];
-    makeEmpty = NO;
-    cellColorChange=sender.tag;
+    if([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]==NotReachable){
+        networkAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Check your network status." preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:networkAlert animated:YES completion:nil];
+        networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
+    }else{
+        NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/down/%@", [TweetidData objectAtIndex:sender.tag]]];
+        NSError *error;
+        NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
+        downBool=YES;
+        makeEmpty = YES;
+        [self.tableView reloadData];
+        makeEmpty = NO;
+        cellColorChange=sender.tag;
+    }
 }
 
 - (IBAction)reload:(id)sender {
@@ -261,11 +309,33 @@ NSData* jsonData;
 }
 
 -(void)reloadAction{
-    [self.tableView setContentOffset:CGPointZero animated:YES];
-    makeEmpty = YES;
-    [self.tableView reloadData];
-    makeEmpty = NO;
-    [self.tableView endUpdates];
+    if([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]==NotReachable){
+        networkAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Check your network status." preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:networkAlert animated:YES completion:nil];
+        networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
+    }else{
+        NSError *error;
+        NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https:/gambleit.tk/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
+        jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *jsonError;
+        id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
+        for (int i=0; i<[allKeys count]; i++) {
+            NSDictionary *arrayResult = [allKeys objectAtIndex:i];
+            TimeData = [TimeData arrayByAddingObject:[arrayResult objectForKey:@"date"]];
+            thumbnails = [thumbnails arrayByAddingObject:[arrayResult objectForKey:@"author"]];
+            NameData = [NameData arrayByAddingObject:[arrayResult objectForKey:@"author"]];
+            LinkData = [LinkData arrayByAddingObject:[arrayResult objectForKey:@"link"]];
+            TextData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"article"]];
+            YesData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"yes"]];
+            NoData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"no"]];
+            TweetidData = [TweetidData arrayByAddingObject:[arrayResult objectForKey:@"id"]];
+        }
+        [self.tableView setContentOffset:CGPointZero animated:YES];
+        makeEmpty = YES;
+        [self.tableView reloadData];
+        makeEmpty = NO;
+        [self.tableView endUpdates];
+    }
 }
 
 -(float)roundUp:(float)input{

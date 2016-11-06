@@ -1,7 +1,7 @@
-#import "SimpleTableAppDelegate.h"
-#import "SimpleTableViewController.h"
+#import "DatenPartyAppDelegate.h"
+#import "DatenPartyViewController.h"
 
-@implementation SimpleTableAppDelegate
+@implementation DatenPartyAppDelegate
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
@@ -10,7 +10,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[SimpleTableViewController alloc] initWithNibName:@"SimpleTableViewController" bundle:nil];
+    self.viewController = [[DatenPartyViewController alloc] initWithNibName:@"DatenPartyViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;

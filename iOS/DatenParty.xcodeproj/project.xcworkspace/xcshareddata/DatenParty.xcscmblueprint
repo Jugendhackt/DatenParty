@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "CD1C10E6BD161CDFAB07FAB829BE36ED77BFB172",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "CD1C10E6BD161CDFAB07FAB829BE36ED77BFB172" : 9223372036854775807,
+    "BA712B48FD291425BDDD2357FA0E94698777282B" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "659F7944-DBE0-4EE7-8F5F-E680D0D7D78D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "CD1C10E6BD161CDFAB07FAB829BE36ED77BFB172" : "DatenParty\/",
+    "BA712B48FD291425BDDD2357FA0E94698777282B" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "DatenParty",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "iOS\/DatenParty.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Jugendhackt\/DatenParty.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BA712B48FD291425BDDD2357FA0E94698777282B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Jugendhackt\/DatenParty.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CD1C10E6BD161CDFAB07FAB829BE36ED77BFB172"
+    }
+  ]
+}

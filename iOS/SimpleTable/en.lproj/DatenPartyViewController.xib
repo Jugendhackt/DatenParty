@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimpleTableViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DatenPartyViewController">
             <connections>
                 <outlet property="headerView" destination="7xW-TK-so3" id="DIx-NQ-R1b"/>
                 <outlet property="reloadButton" destination="MiT-Zx-Ipe" id="Z6T-4C-sw8"/>

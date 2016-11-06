@@ -1,6 +1,6 @@
-#import "SimpleTableCell.h"
+#import "DatenPartyCell.h"
 
-@implementation SimpleTableCell
+@implementation DatenPartyCell
 @synthesize NameLabel = _NameLabel;
 @synthesize TextLabel = _TextLabel;
 @synthesize TimeLabel = _TimeLabel;
