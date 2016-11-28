@@ -31,6 +31,9 @@ bool downBool=NO;
 int cellColorChange;
 int reload = 0;
 int cellHeight = 200;
+int noArray[999999];
+int yesArray[999999];
+int a = 0;
 NSData* jsonData;
 @synthesize tableView, headerView, reloadButton;
 
@@ -67,7 +70,14 @@ NSData* jsonData;
         [refreshControl endRefreshing];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSError *error;
-            NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https:/gambleit.tk/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
+            NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://maschini.de:5001"]] encoding:NSUTF8StringEncoding error:&error];
+            if(jsonString==NULL){
+                networkAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"This service is currently unavailable." preferredStyle:UIAlertControllerStyleAlert];
+                [self presentViewController:networkAlert animated:YES completion:nil];
+                networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
+                //NSString *jsonString = [NSString stringWithFormat:@"[{\"date\":\"\",\"no\":0,\"yes\":0,\"author\":\"\",\"link\":\"\",\"id\":\"\",\"article\":\"\"}]"];
+                jsonString = [NSString stringWithFormat:@"[{\"date\":\"\",\"no\":0,\"yes\":0,\"author\":\"FAZ\",\"link\":\"\",\"id\":\"\",\"article\":\"\"}]"];
+            }
             jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
             NSError *jsonError;
             id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
@@ -86,7 +96,7 @@ NSData* jsonData;
     }else{
         updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(reloadAction) userInfo:nil repeats:NO];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *jsonString = [NSString stringWithFormat:@"[{\"trustlevel\": \"\", \"yes\": 0, \"profilname\": \"\", \"date\": \"\", \"tweet\": \"\", \"tweetid\": \"\", \"profilimage\": \"\", \"tweetlink\": \"\", \"no\": 0}]"];
+            NSString *                jsonString = [NSString stringWithFormat:@"[{\"date\":\"\",\"no\":0,\"yes\":0,\"author\":\"FAZ\",\"link\":\"\",\"id\":\"\",\"article\":\"\"}]"];
             jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
             NSError *jsonError;
             id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
@@ -100,6 +110,9 @@ NSData* jsonData;
                 TweetidData = [TweetidData arrayByAddingObject:[arrayResult objectForKey:@"id"]];
                 YesData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"yes"]];
                 NoData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"no"]];
+                yesArray[a] = [[arrayResult objectForKey:@"yes"] floatValue];
+                noArray[a] = [[arrayResult objectForKey:@"no"] floatValue];
+                a++;
             }
         });
     }
@@ -125,7 +138,13 @@ NSData* jsonData;
         networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
     }else{
         NSError *error;
-        NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https:/gambleit.tk/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
+        NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://maschini.de:5001"]] encoding:NSUTF8StringEncoding error:&error];
+        if(jsonString==NULL){
+            networkAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"This service is currently unavailable." preferredStyle:UIAlertControllerStyleAlert];
+            [self presentViewController:networkAlert animated:YES completion:nil];
+            networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
+                jsonString = [NSString stringWithFormat:@"[{\"date\":\"\",\"no\":0,\"yes\":0,\"author\":\"FAZ\",\"link\":\"\",\"id\":\"\",\"article\":\"\"}]"];
+        }
         jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         [self.tableView setContentOffset:CGPointZero animated:YES];
         makeEmpty = YES;
@@ -143,13 +162,19 @@ NSData* jsonData;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]!=NotReachable){
-    NSError *error;
-    NSError *jsonError;
-    NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https:/gambleit.tk/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
-    NSLog(@"%@", jsonString);
-    jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"Data 1");
-    id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
+        NSError *error;
+        NSError *jsonError;
+        NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://maschini.de:5001"]] encoding:NSUTF8StringEncoding error:&error];
+        NSLog(@"JSON: %@", jsonString);
+        if(jsonString==NULL){
+            networkAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"This service is currently unavailable." preferredStyle:UIAlertControllerStyleAlert];
+            [self presentViewController:networkAlert animated:YES completion:nil];
+            networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
+            jsonString = [NSString stringWithFormat:@"[{\"date\":\"\",\"no\":0,\"yes\":0,\"author\":\"FAZ\",\"link\":\"\",\"id\":\"\",\"article\":\"\"}]"];
+        }
+        jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSLog(@"Data 1");
+        id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
     
     if(makeEmpty){
         return [allKeys count];
@@ -157,7 +182,7 @@ NSData* jsonData;
         return [NameData count];
     }
     }else{
-        NSString *jsonString = [NSString stringWithFormat:@"[{\"trustlevel\": \"\", \"yes\": 0, \"profilname\": \"\", \"date\": \"\", \"tweet\": \"\", \"tweetid\": \"\", \"profilimage\": \"\", \"tweetlink\": \"\", \"no\": 0}]"];
+        NSString *jsonString = [NSString stringWithFormat:@"[{\"date\":\"\",\"no\":0,\"yes\":0,\"author\":\"\",\"link\":\"\",\"id\":\"\",\"article\":\"\"}]"];
         jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         return 0;
     }
@@ -183,23 +208,25 @@ NSData* jsonData;
             cell = [nib objectAtIndex:0];
         }
         NSLog(@"Data 2");
-
-        
+        float length = ceil(([[TextData objectAtIndex:indexPath.row] length]/37.0f));
+        if(length>=8){
+            length = 8;
+        }
         cell.NameLabel.text = [NameData objectAtIndex:indexPath.row];
-        cell.thumbnailImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", [thumbnails objectAtIndex:indexPath.row]]];
+        cell.thumbnailImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg", [NameData objectAtIndex:indexPath.row]]];
         cell.thumbnailImageView.layer.cornerRadius = 5;
         cell.thumbnailImageView.layer.masksToBounds = YES;
         cell.TimeLabel.text = [TimeData objectAtIndex:indexPath.row];
         cell.TextLabel.text = [TextData objectAtIndex:indexPath.row];
-        cell.TextLabel.frame = CGRectMake(60, 37, cell.TextLabel.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+1)*13.5);
-        cell.cellView.frame = CGRectMake(cell.cellView.frame.origin.x, cell.cellView.frame.origin.y, cell.cellView.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+8)*13.5);
+        cell.TextLabel.frame = CGRectMake(60, 37, cell.TextLabel.frame.size.width, (length+1)*13.5);
+        cell.cellView.frame = CGRectMake(cell.cellView.frame.origin.x, cell.cellView.frame.origin.y, cell.cellView.frame.size.width, (length+8)*13.5);
         cell.cellView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:cell.cellView.layer.bounds] CGPath];
         cell.cellView.layer.cornerRadius = 5;
         cell.cellView.layer.shadowOffset = CGSizeMake(0, 2);
         cell.cellView.layer.shadowColor = [UIColor blackColor].CGColor;
         cell.cellView.layer.shadowRadius = 5.0f;
         cell.cellView.layer.shadowOpacity = 0.7f;
-        cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, (ceil([[TextData objectAtIndex:indexPath.row] length]/37.0f)+13)*13.5);
+        cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, (length+13)*13.5);
         
         cell.trustButton.tag = indexPath.row;
         [cell.trustButton addTarget:self
@@ -222,8 +249,8 @@ NSData* jsonData;
         cell.trustBar.layer.cornerRadius = 2;
         CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
         [cell.trustBar.backgroundColor getRed:&red green:&green blue:&blue alpha:&alpha];
-        float trust = [[YesData objectAtIndex:indexPath.row] floatValue]+[[NoData objectAtIndex:indexPath.row] floatValue];
-        NSLog(@"%f", [[YesData objectAtIndex:indexPath.row] floatValue]);
+        float trust = (float)yesArray[indexPath.row]/(float)(yesArray[indexPath.row]+noArray[indexPath.row]);
+        NSLog(@"%f", trust);
         if(trust<=0.5){
             cell.trustBar.backgroundColor = [UIColor colorWithRed:1 green:2*trust blue:0 alpha:1];
         }else{
@@ -231,7 +258,7 @@ NSData* jsonData;
         }
         reload = 1;
         cellHeight=cell.TextLabel.frame.size.height+120;
-        sleep(0.3);
+        sleep(0.1);
         return cell;
         [self.tableView reloadData];
     }
@@ -273,15 +300,12 @@ NSData* jsonData;
         [self presentViewController:networkAlert animated:YES completion:nil];
         networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
     }else{
-        NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/up/%@", [TweetidData objectAtIndex:sender.tag]]];
+        NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://maschini.de:5001/up?%@", [TweetidData objectAtIndex:sender.tag]]];
         NSError *error;
         NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
-        upBool=YES;
         makeEmpty = YES;
         [self.tableView reloadData];
         makeEmpty = NO;
-        cellColorChange=sender.tag;
-        NSLog(@"Trust %d", sender.tag);
     }
 }
 
@@ -292,14 +316,12 @@ NSData* jsonData;
         [self presentViewController:networkAlert animated:YES completion:nil];
         networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
     }else{
-        NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"/datenparty/down/%@", [TweetidData objectAtIndex:sender.tag]]];
+        NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://maschini.de:5001/down?%@", [TweetidData objectAtIndex:sender.tag]]];
         NSError *error;
         NSString *result = [NSString stringWithContentsOfURL:URL encoding:NSUTF8StringEncoding error:&error];
-        downBool=YES;
         makeEmpty = YES;
         [self.tableView reloadData];
         makeEmpty = NO;
-        cellColorChange=sender.tag;
     }
 }
 
@@ -315,7 +337,13 @@ NSData* jsonData;
         networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
     }else{
         NSError *error;
-        NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https:/gambleit.tk/tweets.json"]] encoding:NSUTF8StringEncoding error:&error];
+        NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://maschini.de:5001"]] encoding:NSUTF8StringEncoding error:&error];
+        if(jsonString==NULL){
+            networkAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"This service is currently unavailable." preferredStyle:UIAlertControllerStyleAlert];
+            [self presentViewController:networkAlert animated:YES completion:nil];
+            networkTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(networkTimer) userInfo:nil repeats:YES];
+                jsonString = [NSString stringWithFormat:@"[{\"date\":\"\",\"no\":0,\"yes\":0,\"author\":\"FAZ\",\"link\":\"\",\"id\":\"\",\"article\":\"\"}]"];
+        }
         jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         NSError *jsonError;
         id allKeys = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONWritingPrettyPrinted error:&jsonError];
@@ -329,6 +357,9 @@ NSData* jsonData;
             YesData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"yes"]];
             NoData = [TextData arrayByAddingObject:[arrayResult objectForKey:@"no"]];
             TweetidData = [TweetidData arrayByAddingObject:[arrayResult objectForKey:@"id"]];
+            yesArray[a] = [[arrayResult objectForKey:@"yes"] floatValue];
+            noArray[a] = [[arrayResult objectForKey:@"no"] floatValue];
+            a++;
         }
         [self.tableView setContentOffset:CGPointZero animated:YES];
         makeEmpty = YES;

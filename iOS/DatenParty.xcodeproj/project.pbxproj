@@ -17,6 +17,10 @@
 		181FC6111DB2443100B8FBE9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 181FC6101DB2443100B8FBE9 /* Images.xcassets */; };
 		18B47C5A1DBCEA3E002CC80D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B47C591DBCEA3E002CC80D /* Reachability.m */; };
 		18B47C5C1DBCEA9A002CC80D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B47C5B1DBCEA9A002CC80D /* SystemConfiguration.framework */; };
+		51BA5F461DDBD8E5004D46CF /* Welt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 51BA5F421DDBD8E5004D46CF /* Welt.jpg */; };
+		51BA5F471DDBD8E5004D46CF /* Zeit.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 51BA5F431DDBD8E5004D46CF /* Zeit.jpg */; };
+		51BA5F481DDBD8E5004D46CF /* FAZ.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 51BA5F441DDBD8E5004D46CF /* FAZ.jpg */; };
+		51BA5F491DDBD8E5004D46CF /* Spiegel.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 51BA5F451DDBD8E5004D46CF /* Spiegel.jpg */; };
 		F479E159155E3E99005C48B1 /* tweets.plist in Resources */ = {isa = PBXBuildFile; fileRef = F479E158155E3E99005C48B1 /* tweets.plist */; };
 		F4DBB63C154C41F300904C6A /* DatenPartyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DBB63B154C41F300904C6A /* DatenPartyCell.m */; };
 		F4DBB63E154CC10B00904C6A /* DatenPartyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4DBB63D154CC10B00904C6A /* DatenPartyCell.xib */; };
@@ -42,6 +46,10 @@
 		18B47C581DBCEA3E002CC80D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		18B47C591DBCEA3E002CC80D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		18B47C5B1DBCEA9A002CC80D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		51BA5F421DDBD8E5004D46CF /* Welt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Welt.jpg; sourceTree = SOURCE_ROOT; };
+		51BA5F431DDBD8E5004D46CF /* Zeit.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Zeit.jpg; sourceTree = SOURCE_ROOT; };
+		51BA5F441DDBD8E5004D46CF /* FAZ.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = FAZ.jpg; sourceTree = SOURCE_ROOT; };
+		51BA5F451DDBD8E5004D46CF /* Spiegel.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Spiegel.jpg; sourceTree = SOURCE_ROOT; };
 		F479E158155E3E99005C48B1 /* tweets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tweets.plist; sourceTree = "<group>"; };
 		F4DBB63A154C41F300904C6A /* DatenPartyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatenPartyCell.h; sourceTree = "<group>"; };
 		F4DBB63B154C41F300904C6A /* DatenPartyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatenPartyCell.m; sourceTree = "<group>"; };
@@ -126,6 +134,10 @@
 				181ABEF11DB26608007E1266 /* Refresh.png */,
 				181ABEF31DB26E29007E1266 /* DatenParty.png */,
 				181ABF001DBC2320007E1266 /* blur.jpg */,
+				51BA5F421DDBD8E5004D46CF /* Welt.jpg */,
+				51BA5F431DDBD8E5004D46CF /* Zeit.jpg */,
+				51BA5F441DDBD8E5004D46CF /* FAZ.jpg */,
+				51BA5F451DDBD8E5004D46CF /* Spiegel.jpg */,
 				181FC6101DB2443100B8FBE9 /* Images.xcassets */,
 				181ABEFE1DBC2019007E1266 /* AppIcon.appiconset */,
 			);
@@ -200,6 +212,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51BA5F471DDBD8E5004D46CF /* Zeit.jpg in Resources */,
 				181FC60D1DB2364500B8FBE9 /* Launch Screen.storyboard in Resources */,
 				181FC6111DB2443100B8FBE9 /* Images.xcassets in Resources */,
 				F4FFD30F153BF3E800759785 /* InfoPlist.strings in Resources */,
@@ -209,8 +222,11 @@
 				F479E159155E3E99005C48B1 /* tweets.plist in Resources */,
 				181ABEF21DB26608007E1266 /* Refresh.png in Resources */,
 				181ABEFF1DBC2019007E1266 /* AppIcon.appiconset in Resources */,
+				51BA5F491DDBD8E5004D46CF /* Spiegel.jpg in Resources */,
 				181ABEF41DB26E29007E1266 /* DatenParty.png in Resources */,
 				181ABF011DBC2320007E1266 /* blur.jpg in Resources */,
+				51BA5F461DDBD8E5004D46CF /* Welt.jpg in Resources */,
+				51BA5F481DDBD8E5004D46CF /* FAZ.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,9 +5,13 @@
 	<key>date</key>
 	<array/>
 	<key>no</key>
-	<array/>
+	<array>
+		<integer>0</integer>
+	</array>
 	<key>yes</key>
-	<array/>
+	<array>
+		<integer>0</integer>
+	</array>
 	<key>author</key>
 	<array/>
 	<key>link</key>
